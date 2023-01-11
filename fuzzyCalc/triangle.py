@@ -33,7 +33,7 @@ class TriangularZadeh(FuzzyNumber):
         print(f'({self.x}, {self.y}, {self.z})')
 
     def trapezoidal(self):
-        return TrapecioJiMa(self.x,self.y,self.y,self.z)
+        return TrapecioJiMa(float(self.x),float(self.y),float(self.y),float(self.z))
 
     def lista(self):
         trap = self.trapezoidal()
@@ -138,7 +138,7 @@ class TriangularGiaYo(FuzzyNumber):
         print(f'({self.x}, {self.y}, {self.z})')
 
     def trapezoidal(self):
-        return TrapecioJiMa(self.x,self.y,self.y,self.z)
+        return TrapecioJiMa(float(self.x),float(self.y),float(self.y),float(self.z))
 
     def lista(self):
         trap = self.trapezoidal()

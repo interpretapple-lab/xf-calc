@@ -49,7 +49,7 @@ class TrapecioJiMa(FuzzyNumber):
         return self
     
     def lista(self):
-        return [self.a, self.b, self.c, self.d]
+        return [float(self.a),float(self.b),float(self.c),float(self.d)]
 
 #Arithmetic approximations for trapezoidal fuzzy numbers shown in:
 #A.Taleshian & S.Rezvani 2011
@@ -105,7 +105,7 @@ class TrapecioTaRe(FuzzyNumber):
         return self
 
     def lista(self):
-        return [self.a, self.b, self.c, self.d]
+        return [float(self.a),float(self.b),float(self.c),float(self.d)]
 
 #Interval representation shown in:
 #Stefanini, Sorini & Guerra 2006
@@ -158,10 +158,11 @@ class TrapecioSteSoGue(FuzzyNumber):
         b = self.left.subs(self.alpha, 1)
         c = self.right.subs(self.alpha, 1)
         d = self.right.subs(self.alpha, 0)
-        return TrapecioJiMa(a, b, c, d)
+        return TrapecioJiMa(float(a), float(b), float(c), float(d))
 
     def lista(self):
         trap = self.trapezoidal()
+        #print(type(trap.a))
         return [trap.a, trap.b, trap.c, trap.d]
 
 #Grzegorzewski & Mrówka, 2004
@@ -221,4 +222,5 @@ class TrapecioGrMr(FuzzyNumber):
         return self
 
     def lista(self):
-        return [self.t1, self.t2, self.t3, self.t4]
+        #print(type(self.t1))
+        return [float(self.t1),float(self.t2),float(self.t3),float(self.t4)]

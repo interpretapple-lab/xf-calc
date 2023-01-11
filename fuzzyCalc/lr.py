@@ -70,7 +70,11 @@ class LRFoBe(FuzzyNumber):
         b = left.subs(self.alpha, 1)
         c = right.subs(self.alpha, 1)
         d = right.subs(self.alpha, 0)
-        return TrapecioJiMa(a, b, c, d)
+        return TrapecioJiMa(float(a), float(b), float(c), float(d))
+
+    def lista(self):
+        trap = self.trapezoidal()
+        return [trap.a, trap.b, trap.c, trap.d]
 
 #Simplificacion de Ma et al
 # Robinson & Steele, 2002 mostrado en Fodor & Bede, 2006
@@ -151,4 +155,8 @@ class LRRoSt(FuzzyNumber):
         b = left.subs(self.alpha, 1)
         c = right.subs(self.alpha, 1)
         d = right.subs(self.alpha, 0)
-        return TrapecioJiMa(a, b, c, d)
+        return TrapecioJiMa(float(a), float(b), float(c), float(d))
+
+    def lista(self):
+        trap = self.trapezoidal()
+        return [trap.a, trap.b, trap.c, trap.d]

@@ -1,15 +1,24 @@
 import csv
+import json
 from trapezoid import *
 from triangle import *
 from lr import *
 
 def fuzzyCalc():
-    read_obj = open('fuzzyValues.csv', 'r')
-    csv_reader = csv.reader(read_obj)
-    rows = list(csv_reader)
+    csvFile = open('fuzzyValues.csv', 'r')
+    csvReader = csv.reader(csvFile)
+    rows = list(csvReader)
+
+    val1 = values(rows[0])
+    val2 = values(rows[2])
 
     fuzzy1 = list(map(lambda x : float(x), rows[0][1:]))
     fuzzy2 = list(map(lambda x : float(x), rows[2][1:]))
+    input = {
+        "operacion":rows[1][0],
+        "valor1":val1,
+        "valor2":val2
+    }
 
     JiMa1 = TrapecioJiMa(fuzzy1[0], fuzzy1[1], fuzzy1[2], fuzzy1[3])
     JiMa2 = TrapecioJiMa(fuzzy2[0], fuzzy2[1], fuzzy2[2], fuzzy2[3])
@@ -60,6 +69,34 @@ def fuzzyCalc():
     GiaYo1 = TriangularGiaYo(left1, top1, right1, top1/left1, top1/right1, 1)
     GiaYo2 = TriangularGiaYo(left2, top2, right2, top2/left2, top2/right2, 1)
     GiaYo = operation(rows[1][0], GiaYo1, GiaYo2)
+    output = {
+        "JiMa":JiMa.lista(),
+        "TaRe":TaRe.lista(),
+        "SteSoGue":SteSoGue.lista(),
+        "GrMr":GrMr.lista(),
+        "FoBe":FoBe.lista(),
+        "RoSt":RoSt.lista(),
+        "Zadeh":Zadeh.lista(),
+        "GiaYo":GiaYo.lista()
+    }
+
+    jsonData = {
+        "input": input,
+        "output": output
+    }
+
+    jsonObject = json.dumps(jsonData, indent=4)
+    jsonFile = open("data.json", "w")
+    jsonFile.write(jsonObject)
+    jsonFile.close()
+    csvFile.close()
+
+def values(rows):
+    if rows[0] == "between":
+        val = "between"+"("+rows[2]+","+rows[3]+")"
+    else:
+        val = rows[0]+"("+rows[2]+")"
+    return val
 
 def operation(op, val1, val2):
     if op == '+':
@@ -69,4 +106,4 @@ def operation(op, val1, val2):
     elif op == '*':
         res = val1.multiplicacion(val2)
     
-    return res.trapezoidal()
+    return res
