@@ -2,51 +2,6 @@ import sympy as sp
 from fuzzyI import *
 from trapezoid import *
 
-#Interval representation shown in:
-#Stefanini, Sorini & Guerra 2006
-#https://doi.org/10.1016/j.fss.2006.02.002
-class TriangularSteSoGue(FuzzyNumber):
-    alpha = sp.symbols('α')
-    def __init__(self, x, y, z):
-        self.left = (y-x)*self.alpha + x
-        self.right = (y-z)*self.alpha + z
-
-    def suma(self, intervalo):
-        left = self.left + intervalo.left
-        right = self.right + intervalo.right
-        inter = TriangularSteSoGue(0, 0, 0)
-        inter.left = left
-        inter.right = right
-        return inter
-
-    def resta(self, intervalo):
-        left = self.left - intervalo.right
-        right = self.right - intervalo.left
-        inter = TriangularSteSoGue(0, 0, 0)
-        inter.left = left
-        inter.right = right
-        return inter
-
-    def multiplicacion(self, intervalo):
-        left = self.left * intervalo.left
-        right = self.right * intervalo.right
-        inter = TriangularSteSoGue(0, 0, 0)
-        inter.left = left
-        inter.right = right
-        return inter
-
-    def imprimir(self):
-        print(f'[{self.left} , {self.right}]')
-
-    def trapezoidal(self):
-        return self.triangular().trapezoidal()
-
-    def triangular(self):
-        a = self.left.subs(self.alpha, 0)
-        b = self.left.subs(self.alpha, 1)
-        c = self.right.subs(self.alpha, 0)
-        return TriangularZadeh(a, b, c)
-
 #Standard approximation shown in:
 #Giachetti & Young 1997
 #https://doi.org/10.1016/S0165-0114(97)00140-1
@@ -79,6 +34,10 @@ class TriangularZadeh(FuzzyNumber):
 
     def trapezoidal(self):
         return TrapecioJiMa(self.x,self.y,self.y,self.z)
+
+    def lista(self):
+        trap = self.trapezoidal()
+        return [trap.a, trap.b, trap.c, trap.d]
 
 #Arithmetic approximations for triangular fuzzy numbers shown in:
 #Giachetti & Young 1997
@@ -180,3 +139,7 @@ class TriangularGiaYo(FuzzyNumber):
 
     def trapezoidal(self):
         return TrapecioJiMa(self.x,self.y,self.y,self.z)
+
+    def lista(self):
+        trap = self.trapezoidal()
+        return [trap.a, trap.b, trap.c, trap.d]

@@ -1,4 +1,4 @@
-
+from fuzzyCalc import *
 class Calculadora:
     "Calculadora General"
     isFuncionSelected = False
@@ -111,6 +111,7 @@ def doCSV(calculator):
 
     values2 = [op2[0],str(op2[1]),str(op2[2]),str(op2[3]),str(op2[4])]
     archivo.write(",".join(values2)+"\n")
-
+    archivo.close()
+    fuzzyCalc()
 
     
