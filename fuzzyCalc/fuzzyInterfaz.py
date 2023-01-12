@@ -89,24 +89,17 @@ def funcionSelected(functionValue):
     elif functionValue == 3: 
         atLeast()
 
+frm_operaciones2 = Frame(bg="white", colormap="new", width=320,height=50)
+frm_operaciones2.pack(side=BOTTOM)
 
-frm_numerico4 = Frame(bg="white", colormap="new", width=320,height=50)
-frm_numerico4.pack(side=BOTTOM)
-
-frm_numerico3 = Frame(bg="white", colormap="new", width=320,height=50)
-frm_numerico3.pack(side=BOTTOM)
-
-frm_numerico2 = Frame(bg="white", colormap="new", width=320,height=50)
-frm_numerico2.pack(side=BOTTOM)
-
-frm_numerico1 = Frame(bg="white", colormap="new", width=320,height=50)
-frm_numerico1.pack(side=BOTTOM)
+frm_operaciones1 = Frame(bg="white", colormap="new", width=320,height=50)
+frm_operaciones1.pack(side=BOTTOM)
 
 frm_funciones = Frame(bg="white", colormap="new")
 frm_funciones.pack(side=BOTTOM)
 
-frm_flechas = Frame(bg="white", colormap="new")
-frm_flechas.pack(side=BOTTOM)
+frm_XY = Frame(bg="white", colormap="new")
+frm_XY.pack(side=BOTTOM)
 
 frm_result = Frame(bg="lightblue", colormap="new", width=220,height=50)
 frm_result.pack(side=BOTTOM, padx=20, pady=20)
@@ -114,16 +107,16 @@ frm_result.pack(side=BOTTOM, padx=20, pady=20)
 frm_modo = Frame(bg="white", colormap="new")
 frm_modo.pack(side=BOTTOM)
 
-frm_Xvalues = Frame(master=frm_modo, bg="lightblue", colormap="new", width=50,height=25)
+frm_Xvalues = Frame(master=frm_XY, bg="lightblue", colormap="new", width=50,height=25)
 frm_Xvalues.pack(side=RIGHT, padx=5)
 
-frm_Xlabel = Frame(master=frm_modo, bg="lightblue", colormap="new", width=50,height=25)
+frm_Xlabel = Frame(master=frm_XY, bg="lightblue", colormap="new", width=50,height=25)
 frm_Xlabel.pack(side=RIGHT, padx=5)
 
-frm_Yvalues = Frame(master=frm_modo, bg="lightblue", colormap="new", width=50,height=25)
+frm_Yvalues = Frame(master=frm_XY, bg="lightblue", colormap="new", width=50,height=25)
 frm_Yvalues.pack(side=RIGHT, padx=5)
 
-frm_Ylabel = Frame(master=frm_modo, bg="lightblue", colormap="new", width=50,height=25)
+frm_Ylabel = Frame(master=frm_XY, bg="lightblue", colormap="new", width=50,height=25)
 frm_Ylabel.pack(side=RIGHT, padx=5)
 
 pantalla = Label(master=frm_result, textvariable=valor, bg="lightblue", width=50,height=5)
@@ -146,16 +139,11 @@ valueX = tk.Entry(master=frm_Yvalues, width=5)
 valueX.insert(0, "0")
 valueX.pack(side=RIGHT)
 
-button = Button(master=frm_flechas, text=" < ", command=lambda: left())
-button.pack(side=LEFT, padx=10)
-button = Button(master=frm_flechas, text=" > ", command=lambda: right())
-button.pack(side=LEFT, padx=10)
-
-button = Button(master=frm_funciones, text="between(x,y)", command=lambda: funcionSelected(0))
+button = Button(master=frm_funciones, text="Between(x,y)", command=lambda: funcionSelected(0))
 button.pack(side=LEFT)
-button = Button(master=frm_funciones, text="around(x)", command=lambda: funcionSelected(1))
+button = Button(master=frm_funciones, text="Around(x)", command=lambda: funcionSelected(1))
 button.pack(side=LEFT)
-button = Button(master=frm_funciones, text="most(x)", command=lambda: funcionSelected(2))
+button = Button(master=frm_funciones, text="atMost(x)", command=lambda: funcionSelected(2))
 button.pack(side=LEFT)
 button = Button(master=frm_funciones, text="atLeast(x)", command=lambda: funcionSelected(3))
 button.pack(side=LEFT)
@@ -167,54 +155,26 @@ modo = ttk.Combobox(master=frm_modo, state="readonly",values=["Alta", "Media", "
 modo.set("Media")
 modo.pack(side=LEFT, padx=10)
 
-
 button = Button(master=frm_funciones, text="Record", command=lambda: calculate(), border = 10, bg='red')
 button.pack(side=RIGHT, padx=10, pady=10)
 
-button = Button(master=frm_numerico1, text="9", command=lambda: joinValue(9), width=5)
-button.pack(side=LEFT, padx=5, pady=10)
-button = Button(master=frm_numerico1, text="8", command=lambda: joinValue(8), width=5)
-button.pack(side=LEFT, padx=5, pady=10)
-button = Button(master=frm_numerico1, text="7", command=lambda: joinValue(7), width=5)
-button.pack(side=LEFT, padx=5, pady=10)
+button = Button(master=frm_operaciones1, text="+", command=lambda: joinValue("+"), width=5)
+button.pack(side=LEFT, padx=10, pady=10)
+button = Button(master=frm_operaciones1, text="-", command=lambda: joinValue("-"), width=5)
+button.pack(side=LEFT, padx=10, pady=10)
 
-button = Button(master=frm_numerico1, text="DEL", command=lambda: delete(), width=5)
+button = Button(master=frm_operaciones1, text="*", command=lambda: joinValue("*"), width=5)
+button.pack(side=LEFT, padx=10, pady=10)
+button = Button(master=frm_operaciones1, text="/", command=lambda: joinValue("/"), width=5)
+button.pack(side=LEFT, padx=10, pady=10)
+
+button = Button(master=frm_operaciones1, text="AC", command=lambda: restart(), width=5)
+button.pack(side=LEFT, padx=10, pady=10)
+
+button = Button(master=frm_operaciones2, text="=", command=lambda: calculate(), width=10)
+button.pack(side=LEFT, padx=30, pady=10)
+
+button = Button(master=frm_operaciones2, text="DEL", command=lambda: delete(), width=5)
 button.pack(side=LEFT, padx=15, pady=10)
-button = Button(master=frm_numerico1, text="AC", command=lambda: restart(), width=5)
-button.pack(side=LEFT, padx=5, pady=10)
-
-button = Button(master=frm_numerico2, text="6", command=lambda: joinValue(6), width=5)
-button.pack(side=LEFT, padx=5, pady=10)
-button = Button(master=frm_numerico2, text="5", command=lambda: joinValue(5), width=5)
-button.pack(side=LEFT, padx=5, pady=10)
-button = Button(master=frm_numerico2, text="4", command=lambda: joinValue(4), width=5)
-button.pack(side=LEFT, padx=5, pady=10)
-
-button = Button(master=frm_numerico2, text="+", command=lambda: joinValue("+"), width=5)
-button.pack(side=LEFT, padx=15, pady=10)
-button = Button(master=frm_numerico2, text="-", command=lambda: joinValue("-"), width=5)
-button.pack(side=LEFT, padx=5, pady=10)
-
-button = Button(master=frm_numerico3, text="3", command=lambda: joinValue(3), width=5)
-button.pack(side=LEFT, padx=5, pady=10)
-button = Button(master=frm_numerico3, text="2", command=lambda: joinValue(2), width=5)
-button.pack(side=LEFT, padx=5, pady=10)
-button = Button(master=frm_numerico3, text="1", command=lambda: joinValue(1), width=5)
-button.pack(side=LEFT, padx=5, pady=10)
-
-button = Button(master=frm_numerico3, text="*", command=lambda: joinValue("*"), width=5)
-button.pack(side=LEFT, padx=15, pady=10)
-button = Button(master=frm_numerico3, text="/", command=lambda: joinValue("/"), width=5)
-button.pack(side=LEFT, padx=5, pady=10)
-
-button = Button(master=frm_numerico4, text="0", command=lambda: joinValue(0), width=5)
-button.pack(side=LEFT, padx=5, pady=10)
-button = Button(master=frm_numerico4, text=".", command=lambda: joinValue(), width=5)
-button.pack(side=LEFT, padx=5, pady=10)
-button = Button(master=frm_numerico4, text="=", command=lambda: calculate(), width=5)
-button.pack(side=LEFT, padx=5, pady=10)
-
-button = Button(master=frm_numerico4, text="=", command=lambda: calculate(), width=10)
-button.pack(side=LEFT, padx=25, pady=10)
 
 root.mainloop()
