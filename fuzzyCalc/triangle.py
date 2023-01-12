@@ -127,6 +127,11 @@ class TriangularGiaYo(FuzzyNumber):
 #resta
     def resta(self, parametrico):
         num = max(self.n, parametrico.n)
+        if parametrico.rho == 0:
+            parametrico.rho = 0.0001
+        if parametrico.lamda == 0:
+            parametrico.lamda = 0.0001
+        
         lamda = ((self.lamda**self.n)/(parametrico.rho**parametrico.n))**(1/num)
         rho = ((self.rho**self.n)/(parametrico.lamda**parametrico.n))**(1/num)
         a = self.x - parametrico.z

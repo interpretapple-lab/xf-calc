@@ -152,8 +152,8 @@ class LRRoSt(FuzzyNumber):
         left = self.m - self.l + self.alpha*(self.l - self.u)
         right = self.m + self.r + self.alpha*(self.u - self.r)
         a = left.subs(self.alpha, 0)
-        b = left.subs(self.alpha, 1)
-        c = right.subs(self.alpha, 1)
+        b = right.subs(self.alpha, 1)
+        c = left.subs(self.alpha, 1)
         d = right.subs(self.alpha, 0)
         return TrapecioJiMa(float(a), float(b), float(c), float(d))
 

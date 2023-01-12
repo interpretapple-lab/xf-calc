@@ -65,7 +65,11 @@ def fuzzyCalc():
         right1 = 0.0001
     if right2 == 0:
         right2 = 0.0001  
-      
+    if top1 == 0:
+        top1 = 0.0001
+    if top2 == 0:
+        top2 == 0.0001
+
     GiaYo1 = TriangularGiaYo(left1, top1, right1, top1/left1, top1/right1, 1)
     GiaYo2 = TriangularGiaYo(left2, top2, right2, top2/left2, top2/right2, 1)
     GiaYo = operation(rows[1][0], GiaYo1, GiaYo2)

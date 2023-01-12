@@ -1,4 +1,5 @@
 from fuzzyCalc import *
+from report import *
 class Calculadora:
     "Calculadora General"
     isFuncionSelected = False
@@ -58,15 +59,15 @@ class Operacion:
             c = self.x
             d = self.x * (1 + calc.confidence)
         elif self.__isTrapecio__() == 2: #atmost
-            a = "Infinito"
-            b = "Infinito"
+            a = 9999999999999.99999
+            b = 9999999999999.99999
             c = self.x
             d = self.x + (self.x * (1+calc.confidence))
         elif self.__isTrapecio__() == 3: ##atleast
             a = self.x - (self.x * calc.confidence)
             b = self.x
-            c = "Infinito"
-            d = "Infinito"
+            c = 9999999999999.99999
+            d = 9999999999999.99999
         return (a,b,c,d)
 
     def __toCsvFormat__(self):
@@ -113,5 +114,6 @@ def doCSV(calculator):
     archivo.write(",".join(values2)+"\n")
     archivo.close()
     fuzzyCalc()
-
+    report = GenerateReport("data.json")
+    report._generatePDF()
     

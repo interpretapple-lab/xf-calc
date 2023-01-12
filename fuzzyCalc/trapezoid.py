@@ -30,8 +30,8 @@ class TrapecioJiMa(FuzzyNumber):
     def resta(self, trap):
         a = self.a - trap.d
         b = self.b - trap.c
-        c = self.c + trap.b
-        d = self.d + trap.a
+        c = self.c - trap.b
+        d = self.d - trap.a
         respuesta = TrapecioJiMa(a,b,c,d)
         return respuesta
 
@@ -76,8 +76,8 @@ class TrapecioTaRe(FuzzyNumber):
         return respuesta
     
     def resta(self, trap):
-        a = self.a - trap.a
-        b = self.b - trap.b
+        a = self.a - trap.b
+        b = self.b - trap.a
         c = self.c + trap.c
         d = self.d + trap.d
         respuesta = TrapecioTaRe(a,b,c,d)
@@ -200,8 +200,8 @@ class TrapecioGrMr(FuzzyNumber):
     def resta(self, trap):
         a = self.t1 - trap.t4
         b = self.t2 - trap.t3
-        c = self.t3 + trap.t2
-        d = self.t4 + trap.t1
+        c = self.t3 - trap.t2
+        d = self.t4 - trap.t1
         respuesta = TrapecioGrMr(0,0,0,0)
         respuesta.t1, respuesta.t2, respuesta.t3, respuesta.t4 = a, b, c, d
         return respuesta
