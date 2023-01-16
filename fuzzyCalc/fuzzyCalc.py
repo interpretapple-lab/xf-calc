@@ -17,7 +17,9 @@ def fuzzyCalc():
     input = {
         "operacion":rows[1][0],
         "valor1":val1,
-        "valor2":val2
+        "fuzzy1":fuzzy1,
+        "valor2":val2,
+        "fuzzy2":fuzzy2
     }
 
     JiMa1 = TrapecioJiMa(fuzzy1[0], fuzzy1[1], fuzzy1[2], fuzzy1[3])
