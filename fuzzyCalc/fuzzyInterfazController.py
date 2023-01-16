@@ -59,15 +59,15 @@ class Operacion:
             c = self.x
             d = self.x * (1 + calc.confidence)
         elif self.__isTrapecio__() == 2: #atmost
-            a = 9999999999999.99999
-            b = 9999999999999.99999
+            a = -10000000000000
+            b = -10000000000000
             c = self.x
             d = self.x + (self.x * (1+calc.confidence))
         elif self.__isTrapecio__() == 3: ##atleast
             a = self.x - (self.x * calc.confidence)
             b = self.x
-            c = 9999999999999.99999
-            d = 9999999999999.99999
+            c = 10000000000000
+            d = 10000000000000
         return (a,b,c,d)
 
     def __toCsvFormat__(self):

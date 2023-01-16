@@ -98,6 +98,8 @@ def fuzzyCalc():
 def values(rows):
     if rows[0] == "between":
         val = "between"+"("+rows[2]+","+rows[3]+")"
+    elif rows[0] == "most":
+        val = "atMost "+"("+rows[3]+")"
     else:
         val = rows[0]+"("+rows[2]+")"
     return val

@@ -17,34 +17,53 @@ class GenerateReport():
         fig.tight_layout()
         index = 1
         for clave, valor in self.output.items():
-            
             try:
                 x = list(valor)
                 min = int(x[0]-1)
                 max = int(x[3]+2)
+                
+                if (max>=1000):
+                    if (min <= -1000):
+                        max = 5
+                        min = -5
+                    else:
+                        max = int(x[1]) + 5
+                    
+                    if (max >= 1000):
+                        max = int(x[0]) + 10
+                
+                if(min <= -1000):
+                    min = int(x[2]) - 5
+                    if min <= -1000:
+                        min = int(x[3]) - 10
+
                 if (max-min)<=12 and (max-min) > 2:
                     spacing = 1
+
                 elif(max-min) <= 2:
                     min = 0
                     max = 5
                     spacing = 1
                 else:
                     spacing = int((max-min)//12)
+                
             except:
                 x = [0,0,0,0]
                 min = 0
                 max = 5
                 spacing = 1
 
+            print(x)
             y = [0,1,1,0]
             ax = plt.subplot(3,3,index)
             ax.plot(x,y)
             plt.scatter(x, y)
+            plt.xlim(min, max)
             plt.xticks(range(min,max,spacing))
             ax.set_title(clave,fontsize=18)
             
             for xy in zip(x, y):
-                plt.annotate('(%.2f, %.0f)' % xy, xy=xy)
+                plt.annotate('(%.2f)' % xy[0], xy=xy)
             
             index +=1
         
@@ -63,7 +82,7 @@ class GenerateReport():
     def _generatePDF(self, day="12/01/2022", filename="report.pdf"):
         self.__saveResults()
         WIDTH = 210
-        HEIGHT = 297
+        HEIGHT = 400
         
         pdf = FPDF() # A4 (210 by 297 mm)
 
