@@ -1,7 +1,7 @@
 from fpdf import FPDF
 import matplotlib.pyplot as plt
 import json
-from matplotlib.backends.backend_pdf import PdfPages
+from datetime import datetime
 
 
 class GenerateReport():
@@ -12,102 +12,120 @@ class GenerateReport():
         self.input = dict(self.jsonDict.get("input"))
 
 
-    def __saveResults(self):
-        fig = plt.figure(figsize=(12, 12), dpi=100) 
-        fig.tight_layout()
+    def __saveResultsPlots(self):
+        xPlots = 3 #Recommended , number of columns  that will enter in A4 sheet
+        yPlots = self.__getNumberYPlots(xPlots) # number of rows
+        size = 4 #recomended size
+        
+        fig = plt.figure(figsize=(xPlots*size, yPlots*size), dpi=100) 
+        fig.set_constrained_layout(True)
+        
         index = 1
         for clave, valor in self.output.items():
             try:
-                x = list(valor)
-                min = int(x[0]-1)
-                max = int(x[3]+2)
-                
-                if (max>=1000):
-                    if (min <= -1000):
-                        max = 5
-                        min = -5
-                    else:
-                        max = int(x[1]) + 5
-                    
-                    if (max >= 1000):
-                        max = int(x[0]) + 10
-                
-                if(min <= -1000):
-                    min = int(x[2]) - 5
-                    if min <= -1000:
-                        min = int(x[3]) - 10
-
-                if (max-min)<=12 and (max-min) > 2:
-                    spacing = 1
-
-                elif(max-min) <= 2:
-                    min = 0
-                    max = 5
-                    spacing = 1
-                else:
-                    spacing = int((max-min)//12)
-                
+                x = list(valor)                
             except:
                 x = [0,0,0,0]
-                min = 0
-                max = 5
-                spacing = 1
 
-            print(x)
             y = [0,1,1,0]
-            ax = plt.subplot(3,3,index)
+
+            ax = plt.subplot(yPlots,xPlots,index)
+            
+            ax.get_xaxis().set_visible(False)
+            ax.get_yaxis().set_visible(False)
+            plt.setp(ax.spines.values(), color='gray')
             ax.plot(x,y)
-            plt.scatter(x, y)
-            plt.xlim(min, max)
-            plt.xticks(range(min,max,spacing))
+
             ax.set_title(clave,fontsize=18)
             
             for xy in zip(x, y):
-                plt.annotate('(%.2f)' % xy[0], xy=xy)
-            
+                plt.annotate('(%.2f)' % xy[0], xy=xy,fontsize=15)
+    
             index +=1
-        
+
         plt.savefig("results.png")
 
+    def __saveInputPlots(self):
+        xPlots = 2 
+        yPlots = 1
+        size = 4 #recomended size
 
-    def __getNumberPlots(self):
+        xfuzzy1 = self.input["fuzzy1"]
+        xfuzzy2 = self.input["fuzzy2"]
+        y = [0,1,1,0]
+
+        fig = plt.figure(figsize=(xPlots*size, yPlots*size), dpi=100) 
+        fig.set_constrained_layout(True)
+        
+        ax = plt.subplot(yPlots,xPlots,1)
+        ax.set_title(self.input["valor1"] ,fontsize=18)
+        plt.setp(ax.spines.values(), color='green')
+        ax.get_xaxis().set_visible(False)
+        ax.get_yaxis().set_visible(False)
+        ax.plot(xfuzzy1,y)
+
+        for xy in zip(xfuzzy1, y):
+            plt.annotate('(%.2f)' % xy[0], xy=xy,fontsize=15)
+
+        ax = plt.subplot(yPlots,xPlots,2)
+        ax.get_xaxis().set_visible(False)
+        ax.get_yaxis().set_visible(False)
+        plt.setp(ax.spines.values(), color='green')
+        ax.set_title(self.input["valor2"],fontsize=18)
+        ax.plot(xfuzzy2,y)
+
+        for xy in zip(xfuzzy2, y):
+            plt.annotate('(%.2f)' % xy[0], xy=xy,fontsize=15)
+
+        plt.savefig("input.png")
+
+    def __getNumberYPlots(self ,numberXPlots:int):
         keys =  self.output.keys()
-        return len(keys)
+        numberPlots = len(keys)
+        math = numberPlots / numberXPlots
+        if (math <= 1):
+            return 1
+        elif (math <= 2):
+            return 2
+        elif (math <= 3):
+            return 3
+        else:
+            return 4
 
     def __getJsonDict(self, jsonFile:str):
         with open(jsonFile) as json_file:
             data = json.load(json_file)
         return dict(data)
 
-    def _generatePDF(self, day="12/01/2022", filename="report.pdf"):
-        self.__saveResults()
+    def _generatePDF(self, filename="report"+datetime.strftime(datetime.now(),"%d%m%Y_%H%M%S")+".pdf",dateTime = datetime.now()):
+        self.__saveResultsPlots()
+        self.__saveInputPlots()
         WIDTH = 210
-        HEIGHT = 400
+        HEIGHT = 297
         
         pdf = FPDF() # A4 (210 by 297 mm)
 
-
         ''' First Page '''
         pdf.add_page()
-        self.__createTitle(day, pdf,"FUZZY NUMBERS")
+        self.__createTitle(pdf,"FUZZY NUMBERS - CALCULATOR RESUME",dateTime)
+        pdf.image("input.png", 62, 25, 90,45)
+        pdf.image("results.png", 5, 78, WIDTH-8,HEIGHT-95)
         self.__addInputInfo(pdf)
-        pdf.image("results.png", 0, 50, WIDTH-5)
         
 
         pdf.output(filename, 'F')
 
-    def __createTitle(self,day, pdf:FPDF,title):
-        pdf.set_font('Arial', '', 12)  
-        pdf.ln(2)
-        pdf.write(4, f'{day}')
-        pdf.ln(10)
-        pdf.set_font('Arial', '', 16)
-        pdf.write(5,f'{title}')
+    def __createTitle(self,pdf:FPDF,title,dateTime:datetime):
+        now = dateTime.strftime("%d/%m/%Y  %H:%M:%S")
+        pdf.set_font('Arial', '', 12)
+        pdf.cell(5, 4, txt =f'{now}', ln = 1,align = 'L')  
+        pdf.set_font('Arial', '', 14)
+        pdf.cell(5, 10, txt =f'{title}',ln = 1, align = 'L')  
+        
 
 
     def __addInputInfo(self,pdf:FPDF):
-        text = self.input["valor1"] +" "+ self.input["operacion"] + " " +self.input["valor2"]
-        pdf.set_font('Arial', '', 14)  
-        pdf.ln(15)
-        pdf.cell(0, 0, txt = text, ln = 1, align = 'C')
+        text = self.input["operacion"] 
+        pdf.set_font('Arial', '', 16)  
+        pdf.cell(0, 11, txt = text, ln = 1, align = 'C')
     
