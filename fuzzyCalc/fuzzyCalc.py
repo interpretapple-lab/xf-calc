@@ -5,7 +5,7 @@ from triangle import *
 from lr import *
 
 def fuzzyCalc():
-    csvFile = open('fuzzyValues.csv', 'r')
+    csvFile = open('visualization/fuzzyValues.csv', 'r')
     csvReader = csv.reader(csvFile)
     rows = list(csvReader)
 
@@ -92,7 +92,7 @@ def fuzzyCalc():
     }
 
     jsonObject = json.dumps(jsonData, indent=4)
-    jsonFile = open("data.json", "w")
+    jsonFile = open("visualization/data.json", "w")
     jsonFile.write(jsonObject)
     jsonFile.close()
     csvFile.close()
