@@ -9,11 +9,11 @@ class Calculadora:
         self.confidence:float
     
     def __defineConfidence__(self, confidence):
-        if confidence == "Alta":
+        if confidence == "Baja":
             self.confidence = 0.2
         elif confidence == "Media":
             self.confidence = 0.5
-        elif confidence == "Baja":
+        elif confidence == "Alta":
             self.confidence == 0.8
 
 class Operacion:
