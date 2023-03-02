@@ -151,8 +151,8 @@ button.pack(side=LEFT)
 label = Label(master=frm_modo, text="Confidence: ", bg="white")
 label.pack(side=LEFT, padx=10)
 
-modo = ttk.Combobox(master=frm_modo, state="readonly",values=["Alta", "Media", "Baja"])
-modo.set("Media")
+modo = ttk.Combobox(master=frm_modo, state="readonly",values=["High", "Medium", "Low"])
+modo.set("Medium")
 modo.pack(side=LEFT, padx=10)
 
 button = Button(master=frm_funciones, text="Record", command=lambda: calculate(), border = 10, bg='red')
