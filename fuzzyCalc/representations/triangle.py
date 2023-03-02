@@ -1,10 +1,12 @@
 import sympy as sp
-from fuzzyI import *
-from trapezoid import *
+from representations.fuzzyI import *
+from representations.trapezoid import *
 
-#Standard approximation shown in:
-#Giachetti & Young 1997
-#https://doi.org/10.1016/S0165-0114(97)00140-1
+# Standard approximation shown in:
+# Giachetti & Young 1997
+# https://doi.org/10.1016/S0165-0114(97)00140-1
+
+
 class TriangularZadeh(FuzzyNumber):
     def __init__(self, x, y, z):
         self.x = x
@@ -33,17 +35,20 @@ class TriangularZadeh(FuzzyNumber):
         print(f'({self.x}, {self.y}, {self.z})')
 
     def trapezoidal(self):
-        return TrapecioJiMa(float(self.x),float(self.y),float(self.y),float(self.z))
+        return TrapecioJiMa(float(self.x), float(self.y), float(self.y), float(self.z))
 
     def lista(self):
         trap = self.trapezoidal()
         return [trap.a, trap.b, trap.c, trap.d]
 
-#Arithmetic approximations for triangular fuzzy numbers shown in:
-#Giachetti & Young 1997
-#https://doi.org/10.1016/S0165-0114(97)00140-1
+# Arithmetic approximations for triangular fuzzy numbers shown in:
+# Giachetti & Young 1997
+# https://doi.org/10.1016/S0165-0114(97)00140-1
+
+
 class TriangularGiaYo(FuzzyNumber):
     alpha = sp.symbols('α')
+
     def __init__(self, x, y, z, lamda, rho, n):
         self.x = x
         self.y = y
@@ -54,13 +59,13 @@ class TriangularGiaYo(FuzzyNumber):
         self.rho = rho
         self.n = n
 
-#multiplicacion
+# multiplicacion
     def tauLeft(self, lamda, n):
-        res = 0.568 * lamda + 0.11* n - 0.859
+        res = 0.568 * lamda + 0.11 * n - 0.859
         return res
 
     def tauRight(self, rho, n):
-        res = -1.85 * rho + 0.144* n + 1.19
+        res = -1.85 * rho + 0.144 * n + 1.19
         return res
 
     def polinomialGeneralizado(self, alpha, n):
@@ -69,31 +74,35 @@ class TriangularGiaYo(FuzzyNumber):
         elif n == 3:
             return alpha**2 - alpha
         elif n == 4:
-            return alpha**4 - alpha **3 + alpha**2 - alpha
+            return alpha**4 - alpha ** 3 + alpha**2 - alpha
         elif n == 5:
-            return alpha**4 - alpha **3 + alpha**2 - alpha
+            return alpha**4 - alpha ** 3 + alpha**2 - alpha
         elif n == 6:
-            return alpha**6 - alpha**5 + alpha**4 - alpha **3 + alpha**2 - alpha
+            return alpha**6 - alpha**5 + alpha**4 - alpha ** 3 + alpha**2 - alpha
 
     def prodLeft(self, parametrico):
-        res = (self.x*parametrico.x)*(((parametrico.lamda*self.lamda - 1) *self.alpha)+ 1) 
+        res = (self.x*parametrico.x) * \
+            (((parametrico.lamda*self.lamda - 1) * self.alpha) + 1)
         return res
 
     def prodRight(self, parametrico):
-        res = (self.z*parametrico.z)*(((parametrico.rho*self.rho - 1) *self.alpha)+ 1) 
+        res = (self.z*parametrico.z) * \
+            (((parametrico.rho*self.rho - 1) * self.alpha) + 1)
         return res
 
     def resProdLeft(self, parametrico):
 
         num = self.n + parametrico.n
 
-        lamda = ((self.lamda**self.n)*(parametrico.lamda**parametrico.n))**(1/num)
+        lamda = ((self.lamda**self.n) *
+                 (parametrico.lamda**parametrico.n))**(1/num)
         polinomial = self.polinomialGeneralizado(self.alpha, num)
 
         prodLeft = self.prodLeft(parametrico)
-        
-        left =  prodLeft + (polinomial * self.tauLeft(num, lamda) * (self.y * parametrico.y - self.x * parametrico.x))
-        
+
+        left = prodLeft + (polinomial * self.tauLeft(num, lamda)
+                           * (self.y * parametrico.y - self.x * parametrico.x))
+
         return left
 
     def resProdRight(self, parametrico):
@@ -101,37 +110,43 @@ class TriangularGiaYo(FuzzyNumber):
         polinomial = self.polinomialGeneralizado(self.alpha, num)
         rho = ((self.rho**self.n)*(parametrico.rho**parametrico.n))**(1/num)
         prodRight = self.prodRight(parametrico)
-        right = prodRight + polinomial*self.tauRight(num, rho) * (self.z * parametrico.z - self.y * parametrico.y)
-        
+        right = prodRight + polinomial * \
+            self.tauRight(num, rho) * (self.z *
+                                       parametrico.z - self.y * parametrico.y)
+
         return right
 
     def multiplicacion(self, parametrico):
         left = self.resProdLeft(parametrico)
-        right = self.resProdRight( parametrico)
+        right = self.resProdRight(parametrico)
         a = left.subs(self.alpha, 0)
         b = left.subs(self.alpha, 1)
         c = right.subs(self.alpha, 0)
         num = self.n + parametrico.n
         rho = ((self.rho**self.n)*(parametrico.rho**parametrico.n))**(1/num)
-        lamda = ((self.lamda**self.n)*(parametrico.lamda**parametrico.n))**(1/num)
+        lamda = ((self.lamda**self.n) *
+                 (parametrico.lamda**parametrico.n))**(1/num)
         return TriangularGiaYo(a, b, c, lamda, rho, num)
-#suma
-    def suma (self, parametrico):
+
+# suma
+    def suma(self, parametrico):
         num = max(self.n, parametrico.n)
-        lamda = ((self.lamda**self.n)*(parametrico.lamda**parametrico.n))**(1/num)
+        lamda = ((self.lamda**self.n) *
+                 (parametrico.lamda**parametrico.n))**(1/num)
         rho = ((self.rho**self.n)*(parametrico.rho**parametrico.n))**(1/num)
         a = self.x + parametrico.x
         b = self.y + parametrico.y
         c = self.z + parametrico.z
         return TriangularGiaYo(a, b, c, lamda, rho, num)
-#resta
+
+# resta
     def resta(self, parametrico):
         num = max(self.n, parametrico.n)
         if parametrico.rho == 0:
             parametrico.rho = 0.0001
         if parametrico.lamda == 0:
             parametrico.lamda = 0.0001
-        
+
         lamda = ((self.lamda**self.n)/(parametrico.rho**parametrico.n))**(1/num)
         rho = ((self.rho**self.n)/(parametrico.lamda**parametrico.n))**(1/num)
         a = self.x - parametrico.z
@@ -143,7 +158,7 @@ class TriangularGiaYo(FuzzyNumber):
         print(f'({self.x}, {self.y}, {self.z})')
 
     def trapezoidal(self):
-        return TrapecioJiMa(float(self.x),float(self.y),float(self.y),float(self.z))
+        return TrapecioJiMa(float(self.x), float(self.y), float(self.y), float(self.z))
 
     def lista(self):
         trap = self.trapezoidal()

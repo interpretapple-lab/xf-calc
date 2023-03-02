@@ -1,19 +1,22 @@
 import sympy as sp
-from fuzzyI import *
-from trapezoid import *
+from representations.fuzzyI import *
+from representations.trapezoid import *
 
-#L-R Fuzzy number representation for trapezoidal fuzzy numbers
+# L-R Fuzzy number representation for trapezoidal fuzzy numbers
 # Fodor & Bede, 2006
-#Proceedings of the 4th Slovakian-Hungarian Joint Symposium on Applied Machine Intelligence (pp. 54-68)
+# Arithmetics with fuzzy numbers: a comparative overview
+
+
 class LRFoBe(FuzzyNumber):
     alpha = sp.symbols('α')
+
     def __init__(self, *args):
-        if len(args)==3:
+        if len(args) == 3:
             a = args[0]
             b = args[1]
             c = args[1]
             d = args[2]
-        elif len(args)==4:
+        elif len(args) == 4:
             a = args[0]
             b = args[1]
             c = args[2]
@@ -39,7 +42,7 @@ class LRFoBe(FuzzyNumber):
         a = m - self.left(lr, 0)
         b = m - self.left(lr, 1)
         c = m + self.right(lr, 1)
-        d= m + self.right(lr, 0)
+        d = m + self.right(lr, 0)
         return LRFoBe(a, b, c, d)
 
     def resta(self, lr):
@@ -47,7 +50,7 @@ class LRFoBe(FuzzyNumber):
         a = m - self.left(lr, 0)
         b = m - self.left(lr, 1)
         c = m + self.right(lr, 1)
-        d= m + self.right(lr, 0)
+        d = m + self.right(lr, 0)
         return LRFoBe(a, b, c, d)
 
     def multiplicacion(self, lr):
@@ -55,14 +58,14 @@ class LRFoBe(FuzzyNumber):
         a = m - self.left(lr, 0)
         b = m - self.left(lr, 1)
         c = m + self.right(lr, 1)
-        d= m + self.right(lr, 0)
+        d = m + self.right(lr, 0)
         return LRFoBe(a, b, c, d)
 
     def imprimir(self):
         left = self.m - self.l + self.alpha*(self.l - self.u)
         right = self.m + self.r + self.alpha*(self.u - self.r)
         print("[", left, ",", right, "]")
-    
+
     def trapezoidal(self):
         left = self.m - self.l + self.alpha*(self.l - self.u)
         right = self.m + self.r + self.alpha*(self.u - self.r)
@@ -76,23 +79,26 @@ class LRFoBe(FuzzyNumber):
         trap = self.trapezoidal()
         return [trap.a, trap.b, trap.c, trap.d]
 
-#Simplificacion de Ma et al
-# Robinson & Steele, 2002 mostrado en Fodor & Bede, 2006
-#Proceedings of the 4th Slovakian-Hungarian Joint Symposium on Applied Machine Intelligence (pp. 54-68)
+# Simplification of Ma et al
+# Robinson & Steele, 2002 shown in Fodor & Bede, 2006
+# Arithmetics with fuzzy numbers: a comparative overview
+
+
 class LRRoSt(FuzzyNumber):
     alpha = sp.symbols('α')
+
     def __init__(self, *args):
-        if len(args)==3:
+        if len(args) == 3:
             a = args[0]
             b = args[1]
             c = args[1]
             d = args[2]
-        elif len(args)==4:
+        elif len(args) == 4:
             a = args[0]
             b = args[1]
             c = args[2]
             d = args[3]
-            
+
         self.m = (b+c)/2
         self.u = self.m - c
         self.l = self.m - a
@@ -112,7 +118,7 @@ class LRRoSt(FuzzyNumber):
         left = self.left(lr)
         right = self.right(lr)
         upper = self.upper(lr)
-        res = LRRoSt(0,0,0,0)
+        res = LRRoSt(0, 0, 0, 0)
         res.m = m
         res.l = left
         res.r = right
@@ -124,7 +130,7 @@ class LRRoSt(FuzzyNumber):
         left = self.left(lr)
         right = self.right(lr)
         upper = self.upper(lr)
-        res = LRRoSt(0,0,0,0)
+        res = LRRoSt(0, 0, 0, 0)
         res.m = m
         res.l = left
         res.r = right
@@ -136,7 +142,7 @@ class LRRoSt(FuzzyNumber):
         left = self.left(lr)
         right = self.right(lr)
         upper = self.upper(lr)
-        res = LRRoSt(0,0,0,0)
+        res = LRRoSt(0, 0, 0, 0)
         res.m = m
         res.l = left
         res.r = right

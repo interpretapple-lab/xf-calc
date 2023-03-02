@@ -1,5 +1,5 @@
-from fuzzyCalc import *
-from report import *
+from visualization.fuzzyCalc import *
+from visualization.report import *
 class Calculadora:
     "Calculadora General"
     isFuncionSelected = False
@@ -103,7 +103,7 @@ def doCSV(calculator):
     operadorSimbolo = lstOperaciones[1]
     op2 = lstOperaciones[2].__toCsvFormat__()
 
-    archivo = open("visualization/fuzzyValues.csv","w")
+    archivo = open("files/fuzzyValues.csv","w")
     
     values1 = [op1[0],str(op1[1]),str(op1[2]),str(op1[3]),str(op1[4])]
     archivo.write(",".join(values1)+"\n")
@@ -114,6 +114,6 @@ def doCSV(calculator):
     archivo.write(",".join(values2)+"\n")
     archivo.close()
     fuzzyCalc()
-    report = GenerateReport("visualization/data.json")
+    report = GenerateReport("files/data.json")
     report._generatePDF()
     
