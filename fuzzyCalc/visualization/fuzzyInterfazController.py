@@ -112,6 +112,7 @@ def doCSV(calculator):
 
     values2 = [op2[0],str(op2[1]),str(op2[2]),str(op2[3]),str(op2[4])]
     archivo.write(",".join(values2)+"\n")
+    archivo.write(str(calc.confidence))
     archivo.close()
     fuzzyCalc()
     report = GenerateReport("files/data.json")

@@ -3,16 +3,16 @@ import json
 from representations.trapezoid import *
 from representations.triangle import *
 from representations.lr import *
+from representations.gaussian import *
 
 
 def fuzzyCalc():
     csvFile = open('files/fuzzyValues.csv', 'r')
     csvReader = csv.reader(csvFile)
     rows = list(csvReader)
-
     val1 = values(rows[0])
     val2 = values(rows[2])
-
+    conf = float(rows[-1][0])
     fuzzy1 = list(map(lambda x: float(x), rows[0][1:]))
     fuzzy2 = list(map(lambda x: float(x), rows[2][1:]))
     input = {
@@ -23,7 +23,7 @@ def fuzzyCalc():
         "fuzzy2": fuzzy2
     }
 
-    output = calculation(fuzzy1, fuzzy2, rows[1][0])
+    output = calculation(fuzzy1, fuzzy2, rows[1][0], conf)
 
     jsonData = {
         "input": input,
@@ -58,7 +58,7 @@ def operation(op, val1, val2):
     return res
 
 
-def calculation(fuzzy1, fuzzy2, op):
+def calculation(fuzzy1, fuzzy2, op, conf):
     JiMa1 = TrapecioJiMa(fuzzy1[0], fuzzy1[1], fuzzy1[2], fuzzy1[3])
     JiMa2 = TrapecioJiMa(fuzzy2[0], fuzzy2[1], fuzzy2[2], fuzzy2[3])
     JiMa = operation(op, JiMa1, JiMa2)
@@ -110,6 +110,10 @@ def calculation(fuzzy1, fuzzy2, op):
     GiaYo1 = TriangularGiaYo(left1, top1, right1, top1/left1, top1/right1, 1)
     GiaYo2 = TriangularGiaYo(left2, top2, right2, top2/left2, top2/right2, 1)
     GiaYo = operation(op, GiaYo1, GiaYo2)
+
+    Gauss1 = Gauss(top1, conf)
+    Gauss2 = Gauss(top2, conf)
+    GaussF = operation(op, Gauss1, Gauss2)
     output = {
         "JiMa": JiMa.lista(),
         "TaRe": TaRe.lista(),
@@ -118,7 +122,8 @@ def calculation(fuzzy1, fuzzy2, op):
         "FoBe": FoBe.lista(),
         "RoSt": RoSt.lista(),
         "Zadeh": Zadeh.lista(),
-        "GiaYo": GiaYo.lista()
+        "GiaYo": GiaYo.lista(),
+        "Gauss": GaussF.lista(),
     }
 
     return output

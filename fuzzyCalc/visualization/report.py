@@ -2,6 +2,8 @@ from fpdf import FPDF
 import matplotlib.pyplot as plt
 import json
 from datetime import datetime
+import numpy as np
+from scipy.stats import norm
 
 
 class GenerateReport():
@@ -34,23 +36,42 @@ class GenerateReport():
                 x = [0, 0, 0, 0]
                 min = 0
                 max = 5
+            if clave != "Gauss":
 
-            y = [0, 1, 1, 0]
-            ax = plt.subplot(yPlots, xPlots, index)
-            ax.get_xaxis().set_visible(False)
-            ax.get_yaxis().set_visible(False)
-            plt.setp(ax.spines.values(), color='gray')
-            ax.plot(x, y)
-            plt.scatter(x, y)
-            plt.xlim(min, max)
-            ax.set_title(clave, fontsize=18)
+                y = [0, 1, 1, 0]
+                ax = plt.subplot(yPlots, xPlots, index)
+                ax.get_xaxis().set_visible(False)
+                ax.get_yaxis().set_visible(False)
+                plt.setp(ax.spines.values(), color='gray')
+                ax.plot(x, y)
+                plt.scatter(x, y)
+                plt.xlim(min, max)
+                ax.set_title(clave, fontsize=18)
 
-            for xy in zip(x, y):
-                if xy[0] >= 1000 or xy[0] <= -1000:
-                    plt.annotate('(∞)', xy=xy, fontsize=15)
-                else:
-                    plt.annotate('(%.2f)' % xy[0], xy=xy, fontsize=15)
+                for xy in zip(x, y):
+                    if xy[0] >= 1000 or xy[0] <= -1000:
+                        plt.annotate('(∞)', xy=xy, fontsize=15)
+                    else:
+                        plt.annotate('(%.2f)' % xy[0], xy=xy, fontsize=15)
 
+            if clave == "Gauss":
+                ax = plt.subplot(yPlots, xPlots, index)
+                ax.get_yaxis().set_visible(False)
+                ax.get_xaxis().set_visible(False)
+
+                plt.setp(ax.spines.values(), color='gray')
+                x = list(valor)
+                s = np.linspace(x[0] - (3*x[1]), x[0] + (3*x[1]), 100)
+                ax.plot(s, norm.pdf(s, x[0], x[1]))
+                ax.set_title(clave, fontsize=18)
+                x = [x[0] - (3*x[1]), x[0], x[0] + (3*x[1])]
+                y = [0, 0.8, 0]
+                #plt.scatter(x, y)
+                for xy in zip(x, y):
+                    if xy[0] >= 1000 or xy[0] <= -1000:
+                        plt.annotate('(∞)', xy=xy, fontsize=15)
+                    if xy[0]:
+                        plt.annotate('(%.2f)' % xy[0], xy=xy, fontsize=15)
             index += 1
 
         plt.savefig("files/results.png")

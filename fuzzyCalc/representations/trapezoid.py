@@ -50,6 +50,10 @@ class TrapecioJiMa(FuzzyNumber):
     def trapezoidal(self):
         return self
 
+
+    def representation(self):
+        return "trapezoid"
+
     def lista(self):
         return [float(self.a), float(self.b), float(self.c), float(self.d)]
 
@@ -101,6 +105,9 @@ class TrapecioTaRe(FuzzyNumber):
     def trapezoidal(self):
         return self
 
+    def representation(self):
+        return "trapezoid"
+    
     def lista(self):
         return [float(self.a), float(self.b), float(self.c), float(self.d)]
 
@@ -159,6 +166,9 @@ class TrapecioSteSoGue(FuzzyNumber):
         c = self.right.subs(self.alpha, 1)
         d = self.right.subs(self.alpha, 0)
         return TrapecioJiMa(float(a), float(b), float(c), float(d))
+
+    def representation(self):
+        return "trapezoid"
 
     def lista(self):
         trap = self.trapezoidal()
@@ -221,6 +231,9 @@ class TrapecioGrMr(FuzzyNumber):
 
     def trapezoidal(self):
         return self
+
+    def representation(self):
+        return "trapezoid"
 
     def lista(self):
         return [float(self.t1), float(self.t2), float(self.t3), float(self.t4)]

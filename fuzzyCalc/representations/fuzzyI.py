@@ -25,3 +25,7 @@ class FuzzyNumber(ABC):
     @abstractmethod
     def trapezoidal(self):
         pass
+
+    @abstractmethod
+    def representation(self):
+        pass
