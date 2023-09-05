@@ -40,32 +40,34 @@ class GenerateReport():
 
                 y = [0, 1, 1, 0]
                 ax = plt.subplot(yPlots, xPlots, index)
-                ax.get_xaxis().set_visible(False)
-                ax.get_yaxis().set_visible(False)
                 plt.setp(ax.spines.values(), color='gray')
                 ax.plot(x, y)
                 plt.scatter(x, y)
                 plt.xlim(min, max)
-                ax.set_title(clave, fontsize=18)
+
+                ax.set_xlabel('Tiempo (horas)', fontsize=20)
+                ax.set_ylabel('Nivel de Certidumbre', fontsize=20)
 
                 for xy in zip(x, y):
                     if xy[0] >= 1000 or xy[0] <= -1000:
-                        plt.annotate('(∞)', xy=xy, fontsize=15)
+                        plt.annotate('(%.2f)' % xy[1], xy=xy, fontsize=15)
                     else:
                         plt.annotate('(%.2f)' % xy[0], xy=xy, fontsize=15)
-
             if clave == "Gauss":
                 ax = plt.subplot(yPlots, xPlots, index)
-                ax.get_yaxis().set_visible(False)
-                ax.get_xaxis().set_visible(False)
-
+                y = [0, 0.8, 0]
+                #ax.set_yticks([0.0, 0.08, 0.16, 0.24, 0.32, 0.4])
+                ax.set_yticks([0.0, 0.16, 0.32, 0.48, 0.64, 0.8])
+                ax.set_yticklabels([0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
+                ax.set_xlabel('Tiempo (horas)', fontsize=18)
+                ax.set_ylabel('Nivel de Certidumbre', fontsize=18)
                 plt.setp(ax.spines.values(), color='gray')
                 x = list(valor)
                 s = np.linspace(x[0] - (3*x[1]), x[0] + (3*x[1]), 100)
                 ax.plot(s, norm.pdf(s, x[0], x[1]))
-                ax.set_title(clave, fontsize=18)
+
                 x = [x[0] - (3*x[1]), x[0], x[0] + (3*x[1])]
-                y = [0, 0.8, 0]
+
                 #plt.scatter(x, y)
                 for xy in zip(x, y):
                     if xy[0] >= 1000 or xy[0] <= -1000:
@@ -73,7 +75,6 @@ class GenerateReport():
                     if xy[0]:
                         plt.annotate('(%.2f)' % xy[0], xy=xy, fontsize=15)
             index += 1
-
         plt.savefig("files/results.png")
 
     def __saveInputPlots(self):
