@@ -1,9 +1,10 @@
 import csv
 import json
+
+from representations.gaussian import *
+from representations.lr import *
 from representations.trapezoid import *
 from representations.triangle import *
-from representations.lr import *
-from representations.gaussian import *
 
 
 def fuzzyCalc():

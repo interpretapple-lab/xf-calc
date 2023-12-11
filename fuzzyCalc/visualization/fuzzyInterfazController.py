@@ -1,5 +1,7 @@
-from visualization.fuzzyCalc import *
-from visualization.report import *
+from visualization.calculator import fuzzyCalc
+from visualization.report import GenerateReport
+
+
 class Calculadora:
     "Calculadora General"
     isFuncionSelected = False

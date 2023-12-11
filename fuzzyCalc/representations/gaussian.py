@@ -1,7 +1,8 @@
-from representations.fuzzyI import *
-from representations.trapezoid import *
 from numpy import log as ln
 import sympy as sp
+
+from representations.fuzzyI import FuzzyNumber
+from representations.trapezoid import TrapecioJiMa
 
 
 class Gauss(FuzzyNumber):
