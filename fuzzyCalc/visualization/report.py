@@ -93,7 +93,7 @@ class GenerateReport():
                     if xy[0]:
                         plt.annotate('(%.2f)' % xy[0], xy=xy, fontsize=15)
             index += 1
-        plt.savefig("files/results.png")
+        plt.savefig("fuzzyCalc/files/results.png")
 
     def __saveInputPlots(self):
         xPlots = 2
@@ -134,7 +134,7 @@ class GenerateReport():
         for xy in zip(xfuzzy2, y):
             plt.annotate('(%.2f)' % xy[0], xy=xy, fontsize=15)
 
-        plt.savefig("files/input.png")
+        plt.savefig("fuzzyCalc/files/input.png")
 
     def __getNumberYPlots(self, numberXPlots: int):
         keys = self.output.keys()
@@ -154,7 +154,7 @@ class GenerateReport():
             data = json.load(json_file)
         return dict(data)
 
-    def _generatePDF(self, filename="files/report"+datetime.strftime(datetime.now(), "%d%m%Y_%H%M%S")+".pdf", dateTime=datetime.now()):
+    def _generatePDF(self, filename="fuzzyCalc/files/report"+datetime.strftime(datetime.now(), "%d%m%Y_%H%M%S")+".pdf", dateTime=datetime.now()):
         self.__saveResultsPlots()
         self.__saveInputPlots()
         WIDTH = 210
@@ -165,8 +165,8 @@ class GenerateReport():
         ''' First Page '''
         pdf.add_page()
         self.__createTitle(pdf, "FUZZY NUMBERS - CALCULATOR RESUME", dateTime)
-        pdf.image("files/input.png", 62, 25, 90, 45)
-        pdf.image("files/results.png", 5, 78, WIDTH-8, HEIGHT-95)
+        pdf.image("fuzzyCalc/files/input.png", 62, 25, 90, 45)
+        pdf.image("fuzzyCalc/files/results.png", 5, 78, WIDTH-8, HEIGHT-95)
         self.__addInputInfo(pdf)
 
         pdf.output(filename, 'F')

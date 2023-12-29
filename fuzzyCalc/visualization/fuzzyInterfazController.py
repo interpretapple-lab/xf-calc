@@ -38,7 +38,7 @@ class Operacion:
             return 0
         elif self.operador == "around":
             return 1
-        elif self.operador == "most":
+        elif self.operador == "atMost":
             return 2
         elif self.operador == "atLeast":
             return 3
@@ -105,7 +105,7 @@ def doCSV(calculator):
     operadorSimbolo = lstOperaciones[1]
     op2 = lstOperaciones[2].__toCsvFormat__()
 
-    archivo = open("files/fuzzyValues.csv","w")
+    archivo = open("fuzzyCalc/files/fuzzyValues.csv","w")
     
     values1 = [op1[0],str(op1[1]),str(op1[2]),str(op1[3]),str(op1[4])]
     archivo.write(",".join(values1)+"\n")
@@ -117,6 +117,6 @@ def doCSV(calculator):
     archivo.write(str(calc.confidence))
     archivo.close()
     fuzzyCalc()
-    report = GenerateReport("files/data.json")
+    report = GenerateReport("fuzzyCalc/files/data.json")
     report._generatePDF()
     

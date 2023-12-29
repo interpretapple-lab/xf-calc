@@ -8,7 +8,7 @@ from representations.triangle import *
 
 
 def fuzzyCalc():
-    csvFile = open('files/fuzzyValues.csv', 'r')
+    csvFile = open('fuzzyCalc/files/fuzzyValues.csv', 'r')
     csvReader = csv.reader(csvFile)
     rows = list(csvReader)
     val1 = values(rows[0])
@@ -32,7 +32,7 @@ def fuzzyCalc():
     }
 
     jsonObject = json.dumps(jsonData, indent=4)
-    jsonFile = open("files/data.json", "w")
+    jsonFile = open("fuzzyCalc/files/data.json", "w")
     jsonFile.write(jsonObject)
     jsonFile.close()
     csvFile.close()
@@ -41,7 +41,7 @@ def fuzzyCalc():
 def values(rows):
     if rows[0] == "between":
         val = "between"+"("+rows[2]+","+rows[3]+")"
-    elif rows[0] == "most":
+    elif rows[0] == "atMost":
         val = "atMost "+"("+rows[3]+")"
     else:
         val = rows[0]+"("+rows[2]+")"

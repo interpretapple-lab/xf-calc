@@ -32,6 +32,7 @@ class Gauss(FuzzyNumber):
         right = self.m + self.r + self.alpha*(self.u - self.r)
         print("[", left, ",", right, "]")
 
+###preguntar
     def trapezoidal(self):
         # Cambiar
         left = self.m - self.l + self.alpha*(self.l - self.u)
