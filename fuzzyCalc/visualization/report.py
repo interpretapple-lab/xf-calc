@@ -45,8 +45,6 @@ class GenerateReport():
                 plt.scatter(x, y)
                 plt.xlim(min, max)
 
-                ax.set_xlabel('Tiempo (horas)', fontsize=20)
-                ax.set_ylabel('Nivel de Certidumbre', fontsize=20)
 
                 for xy in zip(x, y):
                     if xy[0] >= 1000 or xy[0] <= -1000:
@@ -80,8 +78,6 @@ class GenerateReport():
                         ax.set_yticks([0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
 
                 ax.set_yticklabels([0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
-                ax.set_xlabel('Tiempo (horas)', fontsize=18)
-                ax.set_ylabel('Nivel de Certidumbre', fontsize=18)
                 plt.setp(ax.spines.values(), color='gray')
                 s = np.linspace(x[0] - (3*x[1]), x[0] + (3*x[1]), 100)
                 ax.plot(s, norm.pdf(s, x[0], x[1]))

@@ -7,16 +7,14 @@ from representations.trapezoid import *
 from representations.triangle import *
 
 
-def fuzzyCalc():
-    csvFile = open('fuzzyCalc/files/fuzzyValues.csv', 'r')
-    csvReader = csv.reader(csvFile)
-    rows = list(csvReader)
+def fuzzyCalc(rows):
     val1 = values(rows[0])
     val2 = values(rows[2])
-    conf = float(rows[-1][0])
+    conf = rows[-1]
     fuzzy1 = list(map(lambda x: float(x), rows[0][1:]))
     fuzzy2 = list(map(lambda x: float(x), rows[2][1:]))
     input = {
+        "confidence": rows[-2],
         "operacion": rows[1][0],
         "valor1": val1,
         "fuzzy1": fuzzy1,
@@ -24,7 +22,7 @@ def fuzzyCalc():
         "fuzzy2": fuzzy2
     }
 
-    output = calculation(fuzzy1, fuzzy2, rows[1][0], conf)
+    output = calculation(fuzzy1, fuzzy2, rows[1], conf)
 
     jsonData = {
         "input": input,
@@ -35,7 +33,6 @@ def fuzzyCalc():
     jsonFile = open("fuzzyCalc/files/data.json", "w")
     jsonFile.write(jsonObject)
     jsonFile.close()
-    csvFile.close()
 
 
 def values(rows):

@@ -176,7 +176,7 @@ modo = ttk.Combobox(master=frm_modo, state="readonly",
 modo.set("Medium")
 modo.pack(side=LEFT, padx=10)
 
-button = Button(master=frm_funciones, text="Record",
+button = Button(master=frm_funciones, text="=",
                 command=lambda: calculate(), border=10, bg='red')
 button.pack(side=RIGHT, padx=10, pady=10)
 
@@ -190,16 +190,16 @@ button.pack(side=LEFT, padx=10, pady=10)
 button = Button(master=frm_operaciones1, text="*",
                 command=lambda: joinValue("*"), width=5)
 button.pack(side=LEFT, padx=10, pady=10)
-button = Button(master=frm_operaciones1, text="/",
-                command=lambda: joinValue("/"), width=5)
+button = Button(master=frm_operaciones1, text="",
+                width=5)
 button.pack(side=LEFT, padx=10, pady=10)
 
 button = Button(master=frm_operaciones1, text="AC",
                 command=lambda: restart(), width=5)
 button.pack(side=LEFT, padx=10, pady=10)
 
-button = Button(master=frm_operaciones2, text="=",
-                command=lambda: calculate(), width=10)
+button = Button(master=frm_operaciones2, text="",
+                width=10)
 button.pack(side=LEFT, padx=30, pady=10)
 
 button = Button(master=frm_operaciones2, text="DEL",
