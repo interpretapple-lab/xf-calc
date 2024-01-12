@@ -9,8 +9,9 @@ class Calculadora:
 
     def __init__(self) -> None:
         self.confidence:float
-    
+        self.confidence_str: str
     def __defineConfidence__(self, confidence):
+        self.confidence_str = confidence
         if confidence == "High":
             self.confidence = 0.2
         elif confidence == "Medium":
@@ -102,21 +103,12 @@ calc = newCalc()
 def doCSV(calculator):
     lstOperaciones = calculator.operaciones
     op1 = lstOperaciones[0].__toCsvFormat__()
-    operadorSimbolo = lstOperaciones[1]
-    op2 = lstOperaciones[2].__toCsvFormat__()
-
-    archivo = open("fuzzyCalc/files/fuzzyValues.csv","w")
-    
+    operadorSimbolo = lstOperaciones[1].value
+    op2 = lstOperaciones[2].__toCsvFormat__()    
     values1 = [op1[0],str(op1[1]),str(op1[2]),str(op1[3]),str(op1[4])]
-    archivo.write(",".join(values1)+"\n")
-
-    archivo.write(operadorSimbolo.value + "\n")
-
     values2 = [op2[0],str(op2[1]),str(op2[2]),str(op2[3]),str(op2[4])]
-    archivo.write(",".join(values2)+"\n")
-    archivo.write(str(calc.confidence))
-    archivo.close()
-    fuzzyCalc()
+    rows = [values1, operadorSimbolo, values2, calc.confidence_str, calc.confidence]
+    fuzzyCalc(rows)
     report = GenerateReport("fuzzyCalc/files/data.json")
     report._generatePDF()
     
