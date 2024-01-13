@@ -8,7 +8,7 @@ from representations.trapezoid import *
 
 
 class LRFoBe(FuzzyNumber):
-    alpha = sp.symbols('α')
+    a = sp.symbols('a')
 
     def __init__(self, *args):
         if len(args) == 3:
@@ -61,24 +61,22 @@ class LRFoBe(FuzzyNumber):
         d = m + self.right(lr, 0)
         return LRFoBe(a, b, c, d)
 
-    def imprimir(self):
-        left = self.m - self.l + self.alpha*(self.l - self.u)
-        right = self.m + self.r + self.alpha*(self.u - self.r)
-        print("[", left, ",", right, "]")
+    def output(self):
+        return f'[{(self.m - self.l):.2f} + {(self.l - self.u):.2f}*a, {(self.m + self.r):.2f} + {(self.u - self.r):.2f}*a]'
 
     def trapezoidal(self):
-        left = self.m - self.l + self.alpha*(self.l - self.u)
-        right = self.m + self.r + self.alpha*(self.u - self.r)
-        a = left.subs(self.alpha, 0)
-        b = left.subs(self.alpha, 1)
-        c = right.subs(self.alpha, 1)
-        d = right.subs(self.alpha, 0)
+        left = self.m - self.l + self.a*(self.l - self.u)
+        right = self.m + self.r + self.a*(self.u - self.r)
+        a = left.subs(self.a, 0)
+        b = left.subs(self.a, 1)
+        c = right.subs(self.a, 1)
+        d = right.subs(self.a, 0)
         return TrapecioJiMa(float(a), float(b), float(c), float(d))
 
     def representation(self):
         return "lr"
 
-    def lista(self):
+    def toCartesian(self):
         trap = self.trapezoidal()
         return [trap.a, trap.b, trap.c, trap.d]
 
@@ -88,7 +86,7 @@ class LRFoBe(FuzzyNumber):
 
 
 class LRRoSt(FuzzyNumber):
-    alpha = sp.symbols('α')
+    a = sp.symbols('a')
 
     def __init__(self, *args):
         if len(args) == 3:
@@ -152,24 +150,22 @@ class LRRoSt(FuzzyNumber):
         res.u = upper
         return res
 
-    def imprimir(self):
-        left = self.m - self.l + self.alpha*(self.l - self.u)
-        right = self.m + self.r + self.alpha*(self.u - self.r)
-        print(left, ",", right)
+    def output(self):
+        return f'({self.m:.2f}, {self.u:.2f}, {self.l:.2f}, {self.r:.2f})'
 
     def trapezoidal(self):
-        left = self.m - self.l + self.alpha*(self.l - self.u)
-        right = self.m + self.r + self.alpha*(self.u - self.r)
-        a = left.subs(self.alpha, 0)
-        b = right.subs(self.alpha, 1)
-        c = left.subs(self.alpha, 1)
-        d = right.subs(self.alpha, 0)
+        left = self.m - self.l + self.a*(self.l - self.u)
+        right = self.m + self.r + self.a*(self.u - self.r)
+        a = left.subs(self.a, 0)
+        b = right.subs(self.a, 1)
+        c = left.subs(self.a, 1)
+        d = right.subs(self.a, 0)
         return TrapecioJiMa(float(a), float(b), float(c), float(d))
 
 
     def representation(self):
         return "lr"
 
-    def lista(self):
+    def toCartesian(self):
         trap = self.trapezoidal()
         return [trap.a, trap.b, trap.c, trap.d]

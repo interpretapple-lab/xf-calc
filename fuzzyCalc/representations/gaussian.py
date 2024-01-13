@@ -6,7 +6,6 @@ from representations.trapezoid import TrapecioJiMa
 
 
 class Gauss(FuzzyNumber):
-    alpha = sp.symbols('α')
 
     def __init__(self, *args):
         self.m = args[0]
@@ -27,24 +26,11 @@ class Gauss(FuzzyNumber):
         σ = self.σ
         return Gauss(m, σ)
 
-    def imprimir(self):
-        left = self.m - self.l + self.alpha*(self.l - self.u)
-        right = self.m + self.r + self.alpha*(self.u - self.r)
-        print("[", left, ",", right, "]")
-
-###preguntar
-    def trapezoidal(self):
-        # Cambiar
-        left = self.m - self.l + self.alpha*(self.l - self.u)
-        right = self.m + self.r + self.alpha*(self.u - self.r)
-        a = left.subs(self.alpha, 0)
-        b = left.subs(self.alpha, 1)
-        c = right.subs(self.alpha, 1)
-        d = right.subs(self.alpha, 0)
-        return TrapecioJiMa(float(a), float(b), float(c), float(d))
+    def output(self):
+        return f'[{self.m} - {self.σ}*sqrt(-2ln(a)), {self.m} + {self.σ}*sqrt(-2ln(a))]'
 
     def representation(self):
         return "gaussian"
 
-    def lista(self):
+    def toCartesian(self):
         return [self.m, self.σ]

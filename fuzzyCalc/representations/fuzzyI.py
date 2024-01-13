@@ -19,13 +19,13 @@ class FuzzyNumber(ABC):
         pass
 
     @abstractmethod
-    def imprimir(self):
-        pass
-
-    @abstractmethod
-    def trapezoidal(self):
+    def output(self):
         pass
 
     @abstractmethod
     def representation(self):
+        pass
+
+    @abstractmethod
+    def toCartesian(self):
         pass

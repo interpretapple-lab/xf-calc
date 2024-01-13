@@ -44,8 +44,8 @@ class TrapecioJiMa(FuzzyNumber):
                                                           trap.c+(trap.d-trap.c)*self.d)) + (3*self.d*trap.d) - (2*self.c*trap.c)
         return TrapecioJiMa(a, b, c, d)
 
-    def imprimir(self):
-        print("(", self.a, ",", self.b, ",", self.c, ",", self.d, ")")
+    def output(self):
+        return f'({self.a:.2f}, {self.b:.2f}, {self.c:.2f}, {self.d:.2f})'
 
     def trapezoidal(self):
         return self
@@ -54,7 +54,7 @@ class TrapecioJiMa(FuzzyNumber):
     def representation(self):
         return "trapezoid"
 
-    def lista(self):
+    def toCartesian(self):
         return [float(self.a), float(self.b), float(self.c), float(self.d)]
 
 # Arithmetic approximations for trapezoidal fuzzy numbers shown in:
@@ -99,8 +99,8 @@ class TrapecioTaRe(FuzzyNumber):
 
         return TrapecioTaRe(a, b, c, d)
 
-    def imprimir(self):
-        print("(", self.a, ",", self.b, ",", self.c, ",", self.d, ")")
+    def output(self):
+        return f'({self.a:.2f}, {self.b:.2f}, {self.c:.2f}, {self.d:.2f})'
 
     def trapezoidal(self):
         return self
@@ -108,7 +108,7 @@ class TrapecioTaRe(FuzzyNumber):
     def representation(self):
         return "trapezoid"
     
-    def lista(self):
+    def toCartesian(self):
         return [float(self.a), float(self.b), float(self.c), float(self.d)]
 
 # Interval representation shown in:
@@ -117,7 +117,7 @@ class TrapecioTaRe(FuzzyNumber):
 
 
 class TrapecioSteSoGue(FuzzyNumber):
-    alpha = sp.symbols('α')
+    alpha = sp.symbols('a')
 
     def __init__(self, *args):
         if len(args) == 3:
@@ -157,8 +157,8 @@ class TrapecioSteSoGue(FuzzyNumber):
         inter.right = right
         return inter
 
-    def imprimir(self):
-        print(f'[{self.left} , {self.right}]')
+    def output(self):
+        return f'[{self.left} , {self.right}]'
 
     def trapezoidal(self):
         a = self.left.subs(self.alpha, 0)
@@ -170,7 +170,7 @@ class TrapecioSteSoGue(FuzzyNumber):
     def representation(self):
         return "trapezoid"
 
-    def lista(self):
+    def toCartesian(self):
         trap = self.trapezoidal()
         return [trap.a, trap.b, trap.c, trap.d]
 
@@ -226,8 +226,8 @@ class TrapecioGrMr(FuzzyNumber):
         respuesta.t1, respuesta.t2, respuesta.t3, respuesta.t4 = a, b, c, d
         return respuesta
 
-    def imprimir(self):
-        print("(", self.t1, ",", self.t2, ",", self.t3, ",", self.t4, ")")
+    def output(self):
+        return f'({self.t1:.2f}, {self.t2:.2f}, {self.t3:.2f}, {self.t4:.2f})'
 
     def trapezoidal(self):
         return self
@@ -235,5 +235,5 @@ class TrapecioGrMr(FuzzyNumber):
     def representation(self):
         return "trapezoid"
 
-    def lista(self):
+    def toCartesian(self):
         return [float(self.t1), float(self.t2), float(self.t3), float(self.t4)]

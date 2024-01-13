@@ -49,14 +49,13 @@ def calculate():
     calc.__defineConfidence__(confidence)
     if len(calc.operaciones) == 3:
         if type(calc.operaciones[1]) == OperandorSimbolo and type(calc.operaciones[0]) == Operacion and type(calc.operaciones[2]) == Operacion:
-            doCSV(calc)
+            doReport(calc)
         else:
-            # título, mensaje
             MessageBox.showinfo(
                 "Error", "Debe ingresar el operador correctamente")
     else:
         MessageBox.showinfo(
-            "Error", "Debe ingresar únicamente dos operandos y un operador")  # título, mensaje
+            "Error", "Debe ingresar únicamente dos operandos y un operador")
 
 
 def delete():

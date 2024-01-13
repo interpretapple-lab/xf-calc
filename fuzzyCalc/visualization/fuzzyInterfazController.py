@@ -5,7 +5,7 @@ from visualization.report import GenerateReport
 class Calculadora:
     "Calculadora General"
     isFuncionSelected = False
-    operaciones = [] #Listas de operaciones
+    operaciones = [] #Lists of operations
 
     def __init__(self) -> None:
         self.confidence:float
@@ -100,7 +100,7 @@ def newCalc():
 calc = newCalc()
 
 
-def doCSV(calculator):
+def doReport(calculator):
     lstOperaciones = calculator.operaciones
     op1 = lstOperaciones[0].__toCsvFormat__()
     operadorSimbolo = lstOperaciones[1].value

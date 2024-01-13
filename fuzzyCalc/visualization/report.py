@@ -10,19 +10,19 @@ class GenerateReport():
     def __init__(self, file: str):
         self.jsonFile = file
         self.jsonDict = self.__getJsonDict(file)
-        self.output = dict(self.jsonDict.get("output"))
+        self.cartesian_values = dict(self.jsonDict.get("cartesian_values"))
         self.input = dict(self.jsonDict.get("input"))
 
     def __saveResultsPlots(self):
-        xPlots = 3  # Recommended , number of columns  that will enter in A4 sheet
-        yPlots = self.__getNumberYPlots(xPlots)  # number of rows
-        size = 4  # recomended size
+        xPlots = 3
+        yPlots = self.__getNumberYPlots(xPlots)
+        size = 4
 
         fig = plt.figure(figsize=(xPlots*size, yPlots*size), dpi=100)
         fig.set_constrained_layout(True)
 
         index = 1
-        for clave, valor in self.output.items():
+        for clave, valor in self.cartesian_values.items():
             try:
                 x = list(valor)
 
@@ -82,7 +82,6 @@ class GenerateReport():
                 s = np.linspace(x[0] - (3*x[1]), x[0] + (3*x[1]), 100)
                 ax.plot(s, norm.pdf(s, x[0], x[1]))
                 x = [x[0] - (3*x[1]), x[0], x[0] + (3*x[1])]
-                #plt.scatter(x, y)
                 for xy in zip(x, y):
                     if xy[0] >= 1000 or xy[0] <= -1000:
                         plt.annotate('(∞)', xy=xy, fontsize=15)
@@ -94,7 +93,7 @@ class GenerateReport():
     def __saveInputPlots(self):
         xPlots = 2
         yPlots = 1
-        size = 4  # recomended size
+        size = 4
 
         xfuzzy1 = self.input["fuzzy1"]
         min1, max1 = self.graphInfinites(xfuzzy1)
@@ -133,7 +132,7 @@ class GenerateReport():
         plt.savefig("fuzzyCalc/files/input.png")
 
     def __getNumberYPlots(self, numberXPlots: int):
-        keys = self.output.keys()
+        keys = self.cartesian_values.keys()
         numberPlots = len(keys)
         math = numberPlots / numberXPlots
         if (math <= 1):
@@ -191,13 +190,11 @@ class GenerateReport():
                 max = int(x[1]) + 5
 
             if (max >= 1000):
-                #max = int(x[0]) + 10
                 max = int(x[2]+2)
 
         if(min <= -1000):
             min = int(x[2]) - 5
             if min <= -1000:
-                #min = int(x[3]) - 10
                 min = int(x[1]-1)
 
         return min, max

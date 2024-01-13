@@ -31,8 +31,8 @@ class TriangularZadeh(FuzzyNumber):
         c = self.z * triangular.z
         return TriangularZadeh(a, b, c)
 
-    def imprimir(self):
-        print(f'({self.x}, {self.y}, {self.z})')
+    def output(self):
+        return f'({self.x:.2f}, {self.y:.2f}, {self.z:.2f})'
 
     def trapezoidal(self):
         return TrapecioJiMa(float(self.x), float(self.y), float(self.y), float(self.z))
@@ -40,7 +40,7 @@ class TriangularZadeh(FuzzyNumber):
     def representation(self):
         return "triangle"
 
-    def lista(self):
+    def toCartesian(self):
         trap = self.trapezoidal()
         return [trap.a, trap.b, trap.c, trap.d]
 
@@ -50,7 +50,7 @@ class TriangularZadeh(FuzzyNumber):
 
 
 class TriangularGiaYo(FuzzyNumber):
-    alpha = sp.symbols('α')
+    alpha = sp.symbols('a')
 
     def __init__(self, x, y, z, lamda, rho, n):
         self.x = x
@@ -62,7 +62,7 @@ class TriangularGiaYo(FuzzyNumber):
         self.rho = rho
         self.n = n
 
-# multiplicacion
+# multiplication
     def tauLeft(self, lamda, n):
         res = 0.568 * lamda + 0.11 * n - 0.859
         return res
@@ -131,7 +131,7 @@ class TriangularGiaYo(FuzzyNumber):
                  (parametrico.lamda**parametrico.n))**(1/num)
         return TriangularGiaYo(a, b, c, lamda, rho, num)
 
-# suma
+# addition
     def suma(self, parametrico):
         num = max(self.n, parametrico.n)
         lamda = ((self.lamda**self.n) *
@@ -142,7 +142,7 @@ class TriangularGiaYo(FuzzyNumber):
         c = self.z + parametrico.z
         return TriangularGiaYo(a, b, c, lamda, rho, num)
 
-# resta
+# substraction
     def resta(self, parametrico):
         num = max(self.n, parametrico.n)
         if parametrico.rho == 0:
@@ -157,8 +157,8 @@ class TriangularGiaYo(FuzzyNumber):
         c = self.z - parametrico.x
         return TriangularGiaYo(a, b, c, lamda, rho, num)
 
-    def imprimir(self):
-        print(f'({self.x}, {self.y}, {self.z})')
+    def output(self):
+        return f'({self.x:.2f}, {self.y:.2f}, {self.z:.2f}, {self.lamda:.2f}, {self.rho:.2f}, {self.n})'
 
     def trapezoidal(self):
         return TrapecioJiMa(float(self.x), float(self.y), float(self.y), float(self.z))
@@ -166,6 +166,6 @@ class TriangularGiaYo(FuzzyNumber):
     def representation(self):
         return "triangle"
 
-    def lista(self):
+    def toCartesian(self):
         trap = self.trapezoidal()
         return [trap.a, trap.b, trap.c, trap.d]

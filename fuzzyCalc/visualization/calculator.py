@@ -1,4 +1,3 @@
-import csv
 import json
 
 from representations.gaussian import *
@@ -22,11 +21,12 @@ def fuzzyCalc(rows):
         "fuzzy2": fuzzy2
     }
 
-    output = calculation(fuzzy1, fuzzy2, rows[1], conf)
+    output, cartesian_values = calculation(fuzzy1, fuzzy2, rows[1], conf)
 
     jsonData = {
         "input": input,
-        "output": output
+        "output": output,
+        "cartesian_values": cartesian_values
     }
 
     jsonObject = json.dumps(jsonData, indent=4)
@@ -112,16 +112,28 @@ def calculation(fuzzy1, fuzzy2, op, conf):
     Gauss1 = Gauss(top1, conf)
     Gauss2 = Gauss(top2, conf)
     GaussF = operation(op, Gauss1, Gauss2)
+
     output = {
-        "JiMa": JiMa.lista(),
-        "TaRe": TaRe.lista(),
-        "SteSoGue": SteSoGue.lista(),
-        "GrMr": GrMr.lista(),
-        "FoBe": FoBe.lista(),
-        "RoSt": RoSt.lista(),
-        "Zadeh": Zadeh.lista(),
-        "GiaYo": GiaYo.lista(),
-        "Gauss": GaussF.lista(),
+        "JiMa": JiMa.output(),
+        "TaRe": TaRe.output(),
+        "SteSoGue": SteSoGue.output(),
+        "GrMr": GrMr.output(),
+        "FoBe": FoBe.output(),
+        "RoSt": RoSt.output(),
+        "Zadeh": Zadeh.output(),
+        "GiaYo": GiaYo.output(),
+        "Gauss": GaussF.output(),
     }
 
-    return output
+    cartesian_values = {
+        "JiMa": JiMa.toCartesian(),
+        "TaRe": TaRe.toCartesian(),
+        "SteSoGue": SteSoGue.toCartesian(),
+        "GrMr": GrMr.toCartesian(),
+        "FoBe": FoBe.toCartesian(),
+        "RoSt": RoSt.toCartesian(),
+        "Zadeh": Zadeh.toCartesian(),
+        "GiaYo": GiaYo.toCartesian(),
+        "Gauss": GaussF.toCartesian(),
+    }
+    return output, cartesian_values
