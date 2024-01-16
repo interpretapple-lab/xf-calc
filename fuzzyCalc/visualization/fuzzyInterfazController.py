@@ -1,6 +1,6 @@
-from visualization.calculator import fuzzyCalc
-from visualization.report import GenerateReport
-
+import re
+from fuzzyCalc.visualization.calculator import fuzzyCalculator
+from fuzzyCalc.visualization.report import GenerateReport
 
 class Calculadora:
     "Calculadora General"
@@ -26,10 +26,16 @@ class Operacion:
         if xValue == "":
             xValue = 0
 
-        self.x = float(xValue.value)
-        self.operador = operador.value
-        if yValue!=None:
-            self.y = float(yValue.value)
+        try:
+            self.x = float(xValue.value)
+            self.operador = operador.value
+            if yValue!=None:
+                self.y = float(yValue.value)
+        except:
+            self.x = float(xValue)
+            self.operador = operador
+            if yValue!=None:
+                self.y = float(yValue)
         
     def __hasYValue__(self):
         return self.y != None
@@ -102,13 +108,43 @@ calc = newCalc()
 
 def doReport(calculator):
     lstOperaciones = calculator.operaciones
-    op1 = lstOperaciones[0].__toCsvFormat__()
-    operadorSimbolo = lstOperaciones[1].value
-    op2 = lstOperaciones[2].__toCsvFormat__()    
-    values1 = [op1[0],str(op1[1]),str(op1[2]),str(op1[3]),str(op1[4])]
-    values2 = [op2[0],str(op2[1]),str(op2[2]),str(op2[3]),str(op2[4])]
-    rows = [values1, operadorSimbolo, values2, calc.confidence_str, calc.confidence]
-    fuzzyCalc(rows)
+
+    rows = []
+    for i in range(len(lstOperaciones)):
+        if i%2 == 0:
+            op = lstOperaciones[i].__toCsvFormat__()
+            rows.append([op[0],str(op[1]),str(op[2]),str(op[3]),str(op[4])])
+        else:
+            rows.append(lstOperaciones[i].value)
+    rows.append(calc.confidence_str)
+    rows.append(calc.confidence)
+    fuzzyCalculator(rows)
     report = GenerateReport("fuzzyCalc/files/data.json")
     report._generatePDF()
     
+
+def notebookCalculator(inp, conf):
+    inp = inp.replace("(", " ").replace(")", "").replace(", ", " ").replace(",", " ")
+    inp = re.split("([+\-*])", inp)    
+    inp = list(map(lambda x: x.strip().split(" "), inp))
+
+    # while len(inp) >= 2:
+    #     inp2= inp[:3]
+    #     inp = inp[3:]
+    #     print(inp2)
+    #     print(inp)
+
+    for i in range(len(inp)):
+        if i%2 == 0:
+            if inp[i][0] == "between":
+                op = Operacion(inp[i][1], inp[i][0], inp[i][2])
+            else:
+                op = Operacion(inp[i][1], inp[i][0])
+        else:
+            op = OperandorSimbolo(inp[i][0])
+        
+        calc.operaciones.append(op)
+
+    calc.__defineConfidence__(conf)
+    doReport(calc)
+    calc.operaciones = []

@@ -150,8 +150,8 @@ class GenerateReport():
         return dict(data)
 
     def _generatePDF(self, filename="fuzzyCalc/files/report"+datetime.strftime(datetime.now(), "%d%m%Y_%H%M%S")+".pdf", dateTime=datetime.now()):
-        self.__saveResultsPlots()
         self.__saveInputPlots()
+        self.__saveResultsPlots()
         WIDTH = 210
         HEIGHT = 297
 

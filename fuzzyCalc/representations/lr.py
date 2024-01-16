@@ -1,6 +1,6 @@
 import sympy as sp
-from representations.fuzzyI import *
-from representations.trapezoid import *
+from fuzzyCalc.representations.fuzzyI import *
+from fuzzyCalc.representations.trapezoid import *
 
 # L-R Fuzzy number representation for trapezoidal fuzzy numbers
 # Fodor & Bede, 2006

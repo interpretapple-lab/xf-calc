@@ -1,6 +1,6 @@
 import sympy as sp
 from sympy import Symbol
-from representations.fuzzyI import *
+from fuzzyCalc.representations.fuzzyI import *
 
 
 # Arithmetic approximations for trapezoidal fuzzy numbers shown in:

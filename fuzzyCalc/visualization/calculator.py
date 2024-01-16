@@ -1,18 +1,18 @@
 import json
 
-from representations.gaussian import *
-from representations.lr import *
-from representations.trapezoid import *
-from representations.triangle import *
+from fuzzyCalc.representations.gaussian import *
+from fuzzyCalc.representations.lr import *
+from fuzzyCalc.representations.trapezoid import *
+from fuzzyCalc.representations.triangle import *
 
 
-def fuzzyCalc(rows):
+def fuzzyCalculator(rows):
     val1 = values(rows[0])
     val2 = values(rows[2])
     conf = rows[-1]
     fuzzy1 = list(map(lambda x: float(x), rows[0][1:]))
     fuzzy2 = list(map(lambda x: float(x), rows[2][1:]))
-    input = {
+    inp = {
         "confidence": rows[-2],
         "operacion": rows[1][0],
         "valor1": val1,
@@ -24,7 +24,7 @@ def fuzzyCalc(rows):
     output, cartesian_values = calculation(fuzzy1, fuzzy2, rows[1], conf)
 
     jsonData = {
-        "input": input,
+        "input": inp,
         "output": output,
         "cartesian_values": cartesian_values
     }

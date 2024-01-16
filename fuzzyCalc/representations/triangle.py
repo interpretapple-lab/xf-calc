@@ -1,6 +1,6 @@
 import sympy as sp
-from representations.fuzzyI import *
-from representations.trapezoid import *
+from fuzzyCalc.representations.fuzzyI import *
+from fuzzyCalc.representations.trapezoid import *
 
 # Standard approximation shown in:
 # Giachetti & Young 1997
