@@ -51,42 +51,23 @@ class GenerateReport():
                         plt.annotate('(%.2f)' % xy[1], xy=xy, fontsize=15)
                     else:
                         plt.annotate('(%.2f)' % xy[0], xy=xy, fontsize=15)
+
             if clave == "Gauss":
                 ax = plt.subplot(yPlots, xPlots, index)
                 x = list(valor)
-                match x[1]:
-                    case 1.6:
-                        y = [0, 0.25, 0]
-                        ax.set_yticks([0.0, 0.05, 0.1, 0.15, 0.2, 0.25])
-                    case 1.0:
-                        y = [0, 0.4, 0]
-                        ax.set_yticks([0.0, 0.08, 0.16, 0.24, 0.32, 0.4])
-                    case 0.8:
-                        y = [0, 0.5, 0]
-                        ax.set_yticks([0.0, 0.1, 0.2, 0.3, 0.4, 0.5])
-                    case 0.5:
-                        y = [0, 0.8, 0]
-                        ax.set_yticks([0.0, 0.16, 0.32, 0.48, 0.64, 0.8])
-                    case 0.4:
-                        y = [0, 1, 0]
-                        ax.set_yticks([0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
-                    case 0.2:
-                        y = [0, 2.0, 0]
-                        ax.set_yticks([0.0, 0.4, 0.8, 1.2, 1.6, 2.0])
-                    case _:
-                        y = [0, 1, 0]
-                        ax.set_yticks([0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
-
-                ax.set_yticklabels([0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
                 plt.setp(ax.spines.values(), color='gray')
-                s = np.linspace(x[0] - (3*x[1]), x[0] + (3*x[1]), 100)
-                ax.plot(s, norm.pdf(s, x[0], x[1]))
+                s = np.linspace(0.01, 1, 100)
+                x_left, x_right = self.graphGauss(s, x[0], x[1])
+                plt.plot(x_left, s)
+                plt.plot(x_right, s, color='C0')
+
                 x = [x[0] - (3*x[1]), x[0], x[0] + (3*x[1])]
+                y = [0, 1, 0]
                 for xy in zip(x, y):
                     if xy[0] >= 1000 or xy[0] <= -1000:
                         plt.annotate('(∞)', xy=xy, fontsize=15)
                     if xy[0]:
-                        plt.annotate('(%.2f)' % xy[0], xy=xy, fontsize=15)
+                        plt.annotate('(%.2f)' % xy[0], xy=xy, fontsize=15)     
             index += 1
         plt.savefig("fuzzyCalc/files/results.png")
 
@@ -198,3 +179,9 @@ class GenerateReport():
                 min = int(x[1]-1)
 
         return min, max
+
+    def graphGauss(self, x, m, sigma):
+        # Calculate both sides of the Gaussian function
+        left_side = m - sigma * np.sqrt(-2 * np.log(x))
+        right_side = m + sigma * np.sqrt(-2 * np.log(x))
+        return left_side, right_side
