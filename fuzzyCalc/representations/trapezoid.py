@@ -3,10 +3,20 @@ from sympy import Symbol
 from fuzzyCalc.representations.fuzzyI import *
 
 
-# Arithmetic approximations for trapezoidal fuzzy numbers shown in:
-# Jiménez & Mateos 2009
-# https://doi.org/10.1007/978-3-642-01020-0_30
-class TrapecioJiMa(FuzzyNumber):
+
+class TrapezoidJiMa(FuzzyNumber):
+    """Jiménez & Mateos' Trapezoidal Representation
+    This is an implementation of a trapezoidal representation for fuzzy numbers and operations, proposed
+    in [1], for arithmetic calculations between fuzzy numbers.
+
+    References:
+        [1] A. Mateos and A. Jiménez, “A trapezoidal fuzzy numbers-based approach for aggregating group preferences
+        and ranking decision alternatives in MCDM,” in Lecture Notes in Computer Science (including subseries Lecture
+        Notes in Artificial Intelligence and Lecture Notes in Bioinformatics), vol. 5467 LNCS. Springer, Berlin,
+        Heidelberg, 2010, pp. 365-379. [Online].
+        Available: https://link.springer.com/chapter/10.1007/978-3-642-01020-0_30
+
+    """
     def __init__(self, *args):
         if len(args) == 3:
             self.a = args[0]
@@ -24,7 +34,7 @@ class TrapecioJiMa(FuzzyNumber):
         b = self.b + trap.b
         c = self.c + trap.c
         d = self.d + trap.d
-        resp = TrapecioJiMa(a, b, c, d)
+        resp = TrapezoidJiMa(a, b, c, d)
         return resp
 
     def subtraction(self, trap):
@@ -32,7 +42,7 @@ class TrapecioJiMa(FuzzyNumber):
         b = self.b - trap.c
         c = self.c - trap.b
         d = self.d - trap.a
-        resp = TrapecioJiMa(a, b, c, d)
+        resp = TrapezoidJiMa(a, b, c, d)
         return resp
 
     def multiplication(self, trap):
@@ -44,7 +54,7 @@ class TrapecioJiMa(FuzzyNumber):
         d = ((3 / 2) * (self.d - self.c) * (trap.d - trap.c)) - (2 * ((self.d - self.c) *
                                                                       trap.c + (trap.d - trap.c) * self.d)) + (
                         3 * self.d * trap.d) - (2 * self.c * trap.c)
-        return TrapecioJiMa(a, b, c, d)
+        return TrapezoidJiMa(a, b, c, d)
 
     def output(self):
         return f'({self.a:.2f}, {self.b:.2f}, {self.c:.2f}, {self.d:.2f})'
@@ -53,18 +63,23 @@ class TrapecioJiMa(FuzzyNumber):
         return self
 
     def representation(self):
-        return "trapezoid"
+        return "trapezoidal"
 
     def toCartesian(self):
         return [float(self.a), float(self.b), float(self.c), float(self.d)]
 
 
-# Arithmetic approximations for trapezoidal fuzzy numbers shown in:
-# A.Taleshian & S.Rezvani 2011
-# ISSN 0972-8791
-
-
 class TrapecioTaRe(FuzzyNumber):
+    """Taleshian & Rezvani's Trapezoidal Representation
+    This is an implementation of a trapezoidal representation for fuzzy numbers and operations, proposed
+    in [1], for arithmetic calculations between fuzzy numbers.
+
+    References:
+        [1] A. Taleshian and S. Rezvani, “Multiplication operation on trapezoidal fuzzy numbers,” Journal of Physical
+        Science, vol. 15, 01 2011
+
+    """
+    
     def __init__(self, *args):
         if len(args) == 3:
             self.a = args[0]
@@ -108,18 +123,23 @@ class TrapecioTaRe(FuzzyNumber):
         return self
 
     def representation(self):
-        return "trapezoid"
+        return "trapezoidal"
 
     def toCartesian(self):
         return [float(self.a), float(self.b), float(self.c), float(self.d)]
 
 
-# Interval representation shown in:
-# Stefanini, Sorini & Guerra 2006
-# https://doi.org/10.1016/j.fss.2006.02.002
+class TrapezoidSteSoGue(FuzzyNumber):
+    """Stefanini, Sorini & Guerra's Trapezoidal Representation
+    This is an implementation of a trapezoidal representation for fuzzy numbers and operations, proposed in [1], for
+    arithmetic calculations between fuzzy numbers.
 
+    References:
+        [1] L. Stefanini, L. Sorini, and M. L. Guerra, “Parametric representation of fuzzy numbers and application to
+        fuzzy calculus,” Fuzzy Sets and Systems, vol. 157, no. 18, pp. 2423–2455, sep 2006
 
-class TrapecioSteSoGue(FuzzyNumber):
+    """
+
     alpha = sp.symbols('a')
 
     def __init__(self, *args):
@@ -139,7 +159,7 @@ class TrapecioSteSoGue(FuzzyNumber):
     def addition(self, interval):
         left = self.left + interval.left
         right = self.right + interval.right
-        inter = TrapecioSteSoGue(0, 0, 0, 0)
+        inter = TrapezoidSteSoGue(0, 0, 0, 0)
         inter.left = left
         inter.right = right
         return inter
@@ -147,7 +167,7 @@ class TrapecioSteSoGue(FuzzyNumber):
     def subtraction(self, interval):
         left = self.left - interval.right
         right = self.right - interval.left
-        inter = TrapecioSteSoGue(0, 0, 0, 0)
+        inter = TrapezoidSteSoGue(0, 0, 0, 0)
         inter.left = left
         inter.right = right
         return inter
@@ -155,7 +175,7 @@ class TrapecioSteSoGue(FuzzyNumber):
     def multiplication(self, interval):
         left = self.left * interval.left
         right = self.right * interval.right
-        inter = TrapecioSteSoGue(0, 0, 0, 0)
+        inter = TrapezoidSteSoGue(0, 0, 0, 0)
         inter.left = left
         inter.right = right
         return inter
@@ -168,21 +188,27 @@ class TrapecioSteSoGue(FuzzyNumber):
         b = self.left.subs(self.alpha, 1)
         c = self.right.subs(self.alpha, 1)
         d = self.right.subs(self.alpha, 0)
-        return TrapecioJiMa(float(a), float(b), float(c), float(d))
+        return TrapezoidJiMa(float(a), float(b), float(c), float(d))
 
     def representation(self):
-        return "trapezoid"
+        return "trapezoidal"
 
     def toCartesian(self):
         trap = self.trapezoidal()
         return [trap.a, trap.b, trap.c, trap.d]
 
 
-# Grzegorzewski & Mrówka, 2004
-# https://doi.org/10.1016/j.fss.2004.02.015
+class TrapezoidGrMr(FuzzyNumber):
+    """Grzegorzewski & Mrówka's Trapezoidal Representation
+    This is an implementation of a trapezoidal representation for fuzzy numbers and operations, proposed in [1], for
+    arithmetic calculations between fuzzy numbers.
 
+    References:
+        [1] P. Grzegorzewski and E. Mrówka, “Trapezoidal approximations of fuzzy numbers,” Fuzzy Sets and Systems,
+        vol. 153, no. 1, pp. 115–135, jul 2005.
 
-class TrapecioGrMr(FuzzyNumber):
+    """
+
     def __init__(self, *args):
         if len(args) == 3:
             a = args[0]
@@ -208,7 +234,7 @@ class TrapecioGrMr(FuzzyNumber):
         b = self.t2 + trap.t2
         c = self.t3 + trap.t3
         d = self.t4 + trap.t4
-        resp = TrapecioGrMr(0, 0, 0, 0)
+        resp = TrapezoidGrMr(0, 0, 0, 0)
         resp.t1, resp.t2, resp.t3, resp.t4 = a, b, c, d
         return resp
 
@@ -217,7 +243,7 @@ class TrapecioGrMr(FuzzyNumber):
         b = self.t2 - trap.t3
         c = self.t3 - trap.t2
         d = self.t4 - trap.t1
-        resp = TrapecioGrMr(0, 0, 0, 0)
+        resp = TrapezoidGrMr(0, 0, 0, 0)
         resp.t1, resp.t2, resp.t3, resp.t4 = a, b, c, d
         return resp
 
@@ -226,7 +252,7 @@ class TrapecioGrMr(FuzzyNumber):
         b = self.t2 * trap.t2
         c = self.t3 * trap.t3
         d = self.t4 * trap.t4
-        resp = TrapecioGrMr(0, 0, 0, 0)
+        resp = TrapezoidGrMr(0, 0, 0, 0)
         resp.t1, resp.t2, resp.t3, resp.t4 = a, b, c, d
         return resp
 
@@ -237,7 +263,7 @@ class TrapecioGrMr(FuzzyNumber):
         return self
 
     def representation(self):
-        return "trapezoid"
+        return "trapezoidal"
 
     def toCartesian(self):
         return [float(self.t1), float(self.t2), float(self.t3), float(self.t4)]

@@ -69,7 +69,7 @@ def operation(op, val1, val2):
 
 def calculation(fuzzy_values, operations, conf):
 
-    JiMas = [TrapecioJiMa(fuzzy[0], fuzzy[1], fuzzy[2], fuzzy[3]) for fuzzy in fuzzy_values]
+    JiMas = [TrapezoidJiMa(fuzzy[0], fuzzy[1], fuzzy[2], fuzzy[3]) for fuzzy in fuzzy_values]
     JiMa = JiMas[0]
     for op, JiMa1 in zip(operations, JiMas[1:]):
         JiMa = operation(op, JiMa, JiMa1)
@@ -79,12 +79,12 @@ def calculation(fuzzy_values, operations, conf):
     for op, TaRe1 in zip(operations, TaRes[1:]):
         TaRe = operation(op, TaRe, TaRe1)
 
-    SteSoGues = [TrapecioSteSoGue(fuzzy[0], fuzzy[1], fuzzy[2], fuzzy[3]) for fuzzy in fuzzy_values]
+    SteSoGues = [TrapezoidSteSoGue(fuzzy[0], fuzzy[1], fuzzy[2], fuzzy[3]) for fuzzy in fuzzy_values]
     SteSoGue = SteSoGues[0]
     for op, SteSoGue1 in zip(operations, SteSoGues[1:]):
         SteSoGue = operation(op, SteSoGue, SteSoGue1)
 
-    GrMrs = [TrapecioGrMr(fuzzy[0], fuzzy[1], fuzzy[2], fuzzy[3]) for fuzzy in fuzzy_values]
+    GrMrs = [TrapezoidGrMr(fuzzy[0], fuzzy[1], fuzzy[2], fuzzy[3]) for fuzzy in fuzzy_values]
     GrMr = GrMrs[0]
     for op, GrMr1 in zip(operations, GrMrs[1:]):
         GrMr = operation(op, GrMr, GrMr1)

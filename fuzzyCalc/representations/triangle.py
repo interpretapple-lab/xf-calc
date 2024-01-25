@@ -2,12 +2,18 @@ import sympy as sp
 from fuzzyCalc.representations.fuzzyI import *
 from fuzzyCalc.representations.trapezoid import *
 
-# Standard approximation shown in:
-# Giachetti & Young 1997
-# https://doi.org/10.1016/S0165-0114(97)00140-1
-
 
 class TriangularZadeh(FuzzyNumber):
+    """Zadeh's Triangular Representation
+    This is an implementation of a triangular representation for fuzzy numbers and operations, proposed by Zadeh, for
+    arithmetic calculations between fuzzy numbers [1].
+
+    References:
+        [1] R. E. Giachetti and R. E. Young, “A parametric representation of fuzzy numbers and their arithmetic
+        operators,” Fuzzy Sets and Systems, vol. 91, no. 2, pp. 185-202, oct 1997
+
+    """
+
     def __init__(self, x, y, z):
         self.x = x
         self.y = y
@@ -35,34 +41,40 @@ class TriangularZadeh(FuzzyNumber):
         return f'({self.x:.2f}, {self.y:.2f}, {self.z:.2f})'
 
     def trapezoidal(self):
-        return TrapecioJiMa(float(self.x), float(self.y), float(self.y), float(self.z))
+        return TrapezoidJiMa(float(self.x), float(self.y), float(self.y), float(self.z))
 
     def representation(self):
-        return "triangle"
+        return "triangular"
 
     def toCartesian(self):
         trap = self.trapezoidal()
         return [trap.a, trap.b, trap.c, trap.d]
 
-# Arithmetic approximations for triangular fuzzy numbers shown in:
-# Giachetti & Young 1997
-# https://doi.org/10.1016/S0165-0114(97)00140-1
-
 
 class TriangularGiaYo(FuzzyNumber):
+    """Giachetti & Young's Triangular Representation
+    This is an implementation of a triangular representation for fuzzy numbers and operations, proposed in [1], for
+    arithmetic calculations between fuzzy numbers.
+
+    References:
+        [1] R. E. Giachetti and R. E. Young, “A parametric representation of fuzzy numbers and their arithmetic
+        operators,” Fuzzy Sets and Systems, vol. 91, no. 2, pp. 185-202, oct 1997
+
+    """
+
     alpha = sp.symbols('a')
 
     def __init__(self, x, y, z, lamda, rho, n):
         self.x = x
         self.y = y
         self.z = z
-        self.left = (y-x)*self.alpha + x
-        self.right = (y-z)*self.alpha + z
+        self.left = (y - x) * self.alpha + x
+        self.right = (y - z) * self.alpha + z
         self.lamda = lamda
         self.rho = rho
         self.n = n
 
-# multiplication
+    # multiplication
     def tauLeft(self, lamda, n):
         res = 0.568 * lamda + 0.11 * n - 0.859
         return res
@@ -94,7 +106,7 @@ class TriangularGiaYo(FuzzyNumber):
 
         num = self.n + parametric.n
 
-        lamda = ((self.lamda**self.n) *
+        lamda = ((self.lamda ** self.n) *
                  (parametric.lamda ** parametric.n)) ** (1 / num)
         polynomial = self.corrPolynomial(self.alpha, num)
 
@@ -108,11 +120,11 @@ class TriangularGiaYo(FuzzyNumber):
     def resProdRight(self, parametric):
         num = self.n + parametric.n
         polynomial = self.corrPolynomial(self.alpha, num)
-        rho = ((self.rho**self.n) * (parametric.rho ** parametric.n)) ** (1 / num)
+        rho = ((self.rho ** self.n) * (parametric.rho ** parametric.n)) ** (1 / num)
         prodRight = self.prodRight(parametric)
         right = prodRight + polynomial * \
-            self.tauRight(num, rho) * (self.z *
-                                       parametric.z - self.y * parametric.y)
+                self.tauRight(num, rho) * (self.z *
+                                           parametric.z - self.y * parametric.y)
 
         return right
 
@@ -123,23 +135,23 @@ class TriangularGiaYo(FuzzyNumber):
         b = left.subs(self.alpha, 1)
         c = right.subs(self.alpha, 0)
         num = self.n + parametric.n
-        rho = ((self.rho**self.n) * (parametric.rho ** parametric.n)) ** (1 / num)
-        lamda = ((self.lamda**self.n) *
+        rho = ((self.rho ** self.n) * (parametric.rho ** parametric.n)) ** (1 / num)
+        lamda = ((self.lamda ** self.n) *
                  (parametric.lamda ** parametric.n)) ** (1 / num)
         return TriangularGiaYo(a, b, c, lamda, rho, num)
 
-# addition
+    # addition
     def addition(self, parametric):
         num = max(self.n, parametric.n)
-        lamda = ((self.lamda**self.n) *
-                 (parametric.lamda**parametric.n))**(1/num)
-        rho = ((self.rho**self.n)*(parametric.rho**parametric.n))**(1/num)
+        lamda = ((self.lamda ** self.n) *
+                 (parametric.lamda ** parametric.n)) ** (1 / num)
+        rho = ((self.rho ** self.n) * (parametric.rho ** parametric.n)) ** (1 / num)
         a = self.x + parametric.x
         b = self.y + parametric.y
         c = self.z + parametric.z
         return TriangularGiaYo(a, b, c, lamda, rho, num)
 
-# subtraction
+    # subtraction
     def subtraction(self, parametric):
         num = max(self.n, parametric.n)
         if parametric.rho == 0:
@@ -147,8 +159,8 @@ class TriangularGiaYo(FuzzyNumber):
         if parametric.lamda == 0:
             parametric.lamda = 0.0001
 
-        lamda = ((self.lamda**self.n)/(parametric.rho**parametric.n))**(1/num)
-        rho = ((self.rho**self.n)/(parametric.lamda**parametric.n))**(1/num)
+        lamda = ((self.lamda ** self.n) / (parametric.rho ** parametric.n)) ** (1 / num)
+        rho = ((self.rho ** self.n) / (parametric.lamda ** parametric.n)) ** (1 / num)
         a = self.x - parametric.z
         b = self.y - parametric.y
         c = self.z - parametric.x
@@ -158,10 +170,10 @@ class TriangularGiaYo(FuzzyNumber):
         return f'({self.x:.2f}, {self.y:.2f}, {self.z:.2f}, {self.lamda:.2f}, {self.rho:.2f}, {self.n})'
 
     def trapezoidal(self):
-        return TrapecioJiMa(float(self.x), float(self.y), float(self.y), float(self.z))
+        return TrapezoidJiMa(float(self.x), float(self.y), float(self.y), float(self.z))
 
     def representation(self):
-        return "triangle"
+        return "triangular"
 
     def toCartesian(self):
         trap = self.trapezoidal()

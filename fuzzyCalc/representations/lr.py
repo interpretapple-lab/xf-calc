@@ -2,12 +2,17 @@ import sympy as sp
 from fuzzyCalc.representations.fuzzyI import *
 from fuzzyCalc.representations.trapezoid import *
 
-# L-R Fuzzy number representation for trapezoidal fuzzy numbers
-# Fodor & Bede, 2006
-# Arithmetics with fuzzy numbers: a comparative overview
-
 
 class LRFoBe(FuzzyNumber):
+    """Fodor & Bede's L-R Representation
+    This is an implementation of an L-R representation for trapezoidal fuzzy numbers and operations, proposed in [1],
+    for arithmetic calculations between fuzzy numbers.
+
+    References:
+        [1] J. Fodor and B. Bede, “Arithmetics with fuzzy numbers: a comparative overview,” 2006.
+
+    """
+
     a = sp.symbols('a')
 
     def __init__(self, *args):
@@ -71,21 +76,26 @@ class LRFoBe(FuzzyNumber):
         b = left.subs(self.a, 1)
         c = right.subs(self.a, 1)
         d = right.subs(self.a, 0)
-        return TrapecioJiMa(float(a), float(b), float(c), float(d))
+        return TrapezoidJiMa(float(a), float(b), float(c), float(d))
 
     def representation(self):
-        return "lr"
+        return "L-R"
 
     def toCartesian(self):
         trap = self.trapezoidal()
         return [trap.a, trap.b, trap.c, trap.d]
 
-# Simplification of Ma et al
-# Robinson & Steele, 2002 shown in Fodor & Bede, 2006
-# Arithmetics with fuzzy numbers: a comparative overview
-
 
 class LRRoSt(FuzzyNumber):
+    """Robinson & Steele's L-R Representation
+    This is an implementation of an L-R representation for trapezoidal fuzzy numbers and operations, proposed by
+    Robinson & Steele, for arithmetic calculations between fuzzy numbers [1].
+
+    References:
+        [1] J. Fodor and B. Bede, “Arithmetics with fuzzy numbers: a comparative overview,” 2006.
+
+    """
+
     a = sp.symbols('a')
 
     def __init__(self, *args):
@@ -160,11 +170,11 @@ class LRRoSt(FuzzyNumber):
         b = right.subs(self.a, 1)
         c = left.subs(self.a, 1)
         d = right.subs(self.a, 0)
-        return TrapecioJiMa(float(a), float(b), float(c), float(d))
+        return TrapezoidJiMa(float(a), float(b), float(c), float(d))
 
 
     def representation(self):
-        return "lr"
+        return "L-R"
 
     def toCartesian(self):
         trap = self.trapezoidal()
