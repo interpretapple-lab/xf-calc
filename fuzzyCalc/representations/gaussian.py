@@ -11,17 +11,17 @@ class Gauss(FuzzyNumber):
         self.m = args[0]
         self.σ = args[1]
 
-    def suma(self, gaussian):
+    def addition(self, gaussian):
         m = self.m + gaussian.m
         σ = self.σ + self.σ
         return Gauss(m, σ)
 
-    def resta(self, gaussian):
+    def subtraction(self, gaussian):
         m = self.m - gaussian.m
         σ = self.σ
         return Gauss(m, σ)
 
-    def multiplicacion(self, gaussian):
+    def multiplication(self, gaussian):
         m = self.m * gaussian.m
         σ = self.σ
         return Gauss(m, σ)

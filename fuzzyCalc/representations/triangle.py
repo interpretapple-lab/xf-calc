@@ -13,19 +13,19 @@ class TriangularZadeh(FuzzyNumber):
         self.y = y
         self.z = z
 
-    def suma(self, triangular):
+    def addition(self, triangular):
         a = self.x + triangular.x
         b = self.y + triangular.y
         c = self.z + triangular.z
         return TriangularZadeh(a, b, c)
 
-    def resta(self, triangular):
+    def subtraction(self, triangular):
         a = self.x - triangular.z
         b = self.y - triangular.y
         c = self.z - triangular.x
         return TriangularZadeh(a, b, c)
 
-    def multiplicacion(self, triangular):
+    def multiplication(self, triangular):
         a = self.x * triangular.x
         b = self.y * triangular.y
         c = self.z * triangular.z
@@ -71,90 +71,87 @@ class TriangularGiaYo(FuzzyNumber):
         res = -1.85 * rho + 0.144 * n + 1.19
         return res
 
-    def polinomialGeneralizado(self, alpha, n):
-        if n == 2:
-            return alpha**2 - alpha
-        elif n == 3:
-            return alpha**2 - alpha
-        elif n == 4:
-            return alpha**4 - alpha ** 3 + alpha**2 - alpha
-        elif n == 5:
-            return alpha**4 - alpha ** 3 + alpha**2 - alpha
-        elif n == 6:
-            return alpha**6 - alpha**5 + alpha**4 - alpha ** 3 + alpha**2 - alpha
+    def corrPolynomial(self, alpha, n):
+        result = 0
+        for i in range(n, 0, -1):
+            if i % 2 == 0:
+                result += alpha ** i
+            else:
+                result -= alpha ** i
+        return result
 
-    def prodLeft(self, parametrico):
-        res = (self.x*parametrico.x) * \
-            (((parametrico.lamda*self.lamda - 1) * self.alpha) + 1)
+    def prodLeft(self, parametric):
+        res = (self.x * parametric.x) * \
+              (((parametric.lamda * self.lamda - 1) * self.alpha) + 1)
         return res
 
-    def prodRight(self, parametrico):
-        res = (self.z*parametrico.z) * \
-            (((parametrico.rho*self.rho - 1) * self.alpha) + 1)
+    def prodRight(self, parametric):
+        res = (self.z * parametric.z) * \
+              (((parametric.rho * self.rho - 1) * self.alpha) + 1)
         return res
 
-    def resProdLeft(self, parametrico):
+    def resProdLeft(self, parametric):
 
-        num = self.n + parametrico.n
+        num = self.n + parametric.n
 
         lamda = ((self.lamda**self.n) *
-                 (parametrico.lamda**parametrico.n))**(1/num)
-        polinomial = self.polinomialGeneralizado(self.alpha, num)
+                 (parametric.lamda ** parametric.n)) ** (1 / num)
+        polynomial = self.corrPolynomial(self.alpha, num)
 
-        prodLeft = self.prodLeft(parametrico)
+        prodLeft = self.prodLeft(parametric)
 
-        left = prodLeft + (polinomial * self.tauLeft(num, lamda)
-                           * (self.y * parametrico.y - self.x * parametrico.x))
+        left = prodLeft + (polynomial * self.tauLeft(num, lamda)
+                           * (self.y * parametric.y - self.x * parametric.x))
 
         return left
 
-    def resProdRight(self, parametrico):
-        num = self.n + parametrico.n
-        polinomial = self.polinomialGeneralizado(self.alpha, num)
-        rho = ((self.rho**self.n)*(parametrico.rho**parametrico.n))**(1/num)
-        prodRight = self.prodRight(parametrico)
-        right = prodRight + polinomial * \
+    def resProdRight(self, parametric):
+        num = self.n + parametric.n
+        polynomial = self.corrPolynomial(self.alpha, num)
+        rho = ((self.rho**self.n) * (parametric.rho ** parametric.n)) ** (1 / num)
+        prodRight = self.prodRight(parametric)
+        right = prodRight + polynomial * \
             self.tauRight(num, rho) * (self.z *
-                                       parametrico.z - self.y * parametrico.y)
+                                       parametric.z - self.y * parametric.y)
 
         return right
 
-    def multiplicacion(self, parametrico):
-        left = self.resProdLeft(parametrico)
-        right = self.resProdRight(parametrico)
+    def multiplication(self, parametric):
+        left = self.resProdLeft(parametric)
+        right = self.resProdRight(parametric)
         a = left.subs(self.alpha, 0)
         b = left.subs(self.alpha, 1)
         c = right.subs(self.alpha, 0)
-        num = self.n + parametrico.n
-        rho = ((self.rho**self.n)*(parametrico.rho**parametrico.n))**(1/num)
+        num = self.n + parametric.n
+        rho = ((self.rho**self.n) * (parametric.rho ** parametric.n)) ** (1 / num)
         lamda = ((self.lamda**self.n) *
-                 (parametrico.lamda**parametrico.n))**(1/num)
+                 (parametric.lamda ** parametric.n)) ** (1 / num)
         return TriangularGiaYo(a, b, c, lamda, rho, num)
 
 # addition
-    def suma(self, parametrico):
-        num = max(self.n, parametrico.n)
+    def addition(self, parametric):
+        num = max(self.n, parametric.n)
         lamda = ((self.lamda**self.n) *
-                 (parametrico.lamda**parametrico.n))**(1/num)
-        rho = ((self.rho**self.n)*(parametrico.rho**parametrico.n))**(1/num)
-        a = self.x + parametrico.x
-        b = self.y + parametrico.y
-        c = self.z + parametrico.z
+                 (parametric.lamda**parametric.n))**(1/num)
+        rho = ((self.rho**self.n)*(parametric.rho**parametric.n))**(1/num)
+        a = self.x + parametric.x
+        b = self.y + parametric.y
+        c = self.z + parametric.z
         return TriangularGiaYo(a, b, c, lamda, rho, num)
 
-# substraction
-    def resta(self, parametrico):
-        num = max(self.n, parametrico.n)
-        if parametrico.rho == 0:
-            parametrico.rho = 0.0001
-        if parametrico.lamda == 0:
-            parametrico.lamda = 0.0001
+# subtraction
+    def subtraction(self, parametric):
+        num = max(self.n, parametric.n)
+        if parametric.rho == 0:
+            parametric.rho = 0.0001
+        if parametric.lamda == 0:
+            parametric.lamda = 0.0001
 
-        lamda = ((self.lamda**self.n)/(parametrico.rho**parametrico.n))**(1/num)
-        rho = ((self.rho**self.n)/(parametrico.lamda**parametrico.n))**(1/num)
-        a = self.x - parametrico.z
-        b = self.y - parametrico.y
-        c = self.z - parametrico.x
+        lamda = ((self.lamda**self.n)/(parametric.rho**parametric.n))**(1/num)
+        rho = ((self.rho**self.n)/(parametric.lamda**parametric.n))**(1/num)
+        a = self.x - parametric.z
+        b = self.y - parametric.y
+        c = self.z - parametric.x
         return TriangularGiaYo(a, b, c, lamda, rho, num)
 
     def output(self):

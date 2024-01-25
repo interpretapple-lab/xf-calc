@@ -58,84 +58,51 @@ def values(rows):
 
 def operation(op, val1, val2):
     if op == '+':
-        res = val1.suma(val2)
+        res = val1.addition(val2)
     elif op == '-':
-        res = val1.resta(val2)
+        res = val1.subtraction(val2)
     elif op == '*':
-        res = val1.multiplicacion(val2)
+        res = val1.multiplication(val2)
 
     return res
 
 
 def calculation(fuzzy_values, operations, conf):
-    fuzzy1 = fuzzy_values[0]
-    fuzzy2 = fuzzy_values[1]
-    op = operations[0]
+
     JiMas = [TrapecioJiMa(fuzzy[0], fuzzy[1], fuzzy[2], fuzzy[3]) for fuzzy in fuzzy_values]
     JiMa = JiMas[0]
     for op, JiMa1 in zip(operations, JiMas[1:]):
         JiMa = operation(op, JiMa, JiMa1)
-
-    # JiMa1 = TrapecioJiMa(fuzzy1[0], fuzzy1[1], fuzzy1[2], fuzzy1[3])
-    # JiMa2 = TrapecioJiMa(fuzzy2[0], fuzzy2[1], fuzzy2[2], fuzzy2[3])
-    # JiMa = operation(op, JiMa1, JiMa2)
 
     TaRes = [TrapecioTaRe(fuzzy[0], fuzzy[1], fuzzy[2], fuzzy[3]) for fuzzy in fuzzy_values]
     TaRe = TaRes[0]
     for op, TaRe1 in zip(operations, TaRes[1:]):
         TaRe = operation(op, TaRe, TaRe1)
 
-    # TaRe1 = TrapecioTaRe(fuzzy1[0], fuzzy1[1], fuzzy1[2], fuzzy1[3])
-    # TaRe2 = TrapecioTaRe(fuzzy2[0], fuzzy2[1], fuzzy2[2], fuzzy2[3])
-    # TaRe = operation(op, TaRe1, TaRe2)
-
     SteSoGues = [TrapecioSteSoGue(fuzzy[0], fuzzy[1], fuzzy[2], fuzzy[3]) for fuzzy in fuzzy_values]
     SteSoGue = SteSoGues[0]
     for op, SteSoGue1 in zip(operations, SteSoGues[1:]):
         SteSoGue = operation(op, SteSoGue, SteSoGue1)
-
-    # SteSoGue1 = TrapecioSteSoGue(fuzzy1[0], fuzzy1[1], fuzzy1[2], fuzzy1[3])
-    # SteSoGue2 = TrapecioSteSoGue(fuzzy2[0], fuzzy2[1], fuzzy2[2], fuzzy2[3])
-    # SteSoGue = operation(op, SteSoGue1, SteSoGue2)
 
     GrMrs = [TrapecioGrMr(fuzzy[0], fuzzy[1], fuzzy[2], fuzzy[3]) for fuzzy in fuzzy_values]
     GrMr = GrMrs[0]
     for op, GrMr1 in zip(operations, GrMrs[1:]):
         GrMr = operation(op, GrMr, GrMr1)
 
-    # GrMr1 = TrapecioGrMr(fuzzy1[0], fuzzy1[1], fuzzy1[2], fuzzy1[3])
-    # GrMr2 = TrapecioGrMr(fuzzy2[0], fuzzy2[1], fuzzy2[2], fuzzy2[3])
-    # GrMr = operation(op, GrMr1, GrMr2)
-
     FoBes = [LRFoBe(fuzzy[0], fuzzy[1], fuzzy[2], fuzzy[3]) for fuzzy in fuzzy_values]
     FoBe = FoBes[0]
     for op, FoBe1 in zip(operations, FoBes[1:]):
         FoBe = operation(op, FoBe, FoBe1)
-
-    # FoBe1 = LRFoBe(fuzzy1[0], fuzzy1[1], fuzzy1[2], fuzzy1[3])
-    # FoBe2 = LRFoBe(fuzzy2[0], fuzzy2[1], fuzzy2[2], fuzzy2[3])
-    # FoBe = operation(op, FoBe1, FoBe2)
 
     RoSts = [LRRoSt(fuzzy[0], fuzzy[1], fuzzy[2], fuzzy[3]) for fuzzy in fuzzy_values]
     RoSt = RoSts[0]
     for op, RoSt1 in zip(operations, RoSts[1:]):
         RoSt = operation(op, RoSt, RoSt1)
 
-    # RoSt1 = LRRoSt(fuzzy1[0], fuzzy1[1], fuzzy1[2], fuzzy1[3])
-    # RoSt2 = LRRoSt(fuzzy2[0], fuzzy2[1], fuzzy2[2], fuzzy2[3])
-    # RoSt = operation(op, RoSt1, RoSt2)
-
     Zadehs = [TriangularZadeh(fuzzy[0], (fuzzy[1] + fuzzy[2]) / 2, fuzzy[3]) for fuzzy in fuzzy_values]
     Zadeh = Zadehs[0]
     for op, Zadeh1 in zip(operations, Zadehs[1:]):
         Zadeh = operation(op, Zadeh, Zadeh1)
-
-    top1 = (fuzzy1[1] + fuzzy1[2]) / 2
-    top2 = (fuzzy2[1] + fuzzy2[2]) / 2
-
-    # Zadeh1 = TriangularZadeh(fuzzy1[0], top1, fuzzy1[3])
-    # Zadeh2 = TriangularZadeh(fuzzy2[0], top2, fuzzy2[3])
-    # Zadeh = operation(op, Zadeh1, Zadeh2)
 
     GiaYos = [TriangularGiaYo(limit(fuzzy[0]), limit((fuzzy[1] + fuzzy[2]) / 2), limit(fuzzy[3]),
                               limit((fuzzy[1] + fuzzy[2]) / 2) / limit(fuzzy[0]),
@@ -145,35 +112,10 @@ def calculation(fuzzy_values, operations, conf):
     for op, GiaYo1 in zip(operations, GiaYos[1:]):
         GiaYo = operation(op, GiaYo, GiaYo1)
 
-    # left1 = fuzzy1[0]
-    # right1 = fuzzy1[3]
-    # left2 = fuzzy2[0]
-    # right2 = fuzzy2[3]
-    # if left1 == 0:
-    #     left1 = 0.0001
-    # if left2 == 0:
-    #     left2 = 0.0001
-    # if right1 == 0:
-    #     right1 = 0.0001
-    # if right2 == 0:
-    #     right2 = 0.0001
-    # if top1 == 0:
-    #     top1 = 0.0001
-    # if top2 == 0:
-    #     top2 == 0.0001
-
-    # GiaYo1 = TriangularGiaYo(left1, top1, right1, top1/left1, top1/right1, 1)
-    # GiaYo2 = TriangularGiaYo(left2, top2, right2, top2/left2, top2/right2, 1)
-    # GiaYo = operation(op, GiaYo1, GiaYo2)
-
     Gausss = [Gauss((fuzzy[1] + fuzzy[2]) / 2, conf) for fuzzy in fuzzy_values]
     GaussF = Gausss[0]
     for op, Gauss1 in zip(operations, Gausss[1:]):
         GaussF = operation(op, GaussF, Gauss1)
-
-    # Gauss1 = Gauss(top1, conf)
-    # Gauss2 = Gauss(top2, conf)
-    # GaussF = operation(op, Gauss1, Gauss2)
 
     return [JiMa, TaRe, SteSoGue, GrMr, FoBe, RoSt, Zadeh, GiaYo, GaussF]
 

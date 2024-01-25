@@ -17,15 +17,15 @@ def integrate(funct):
     y = valueY.get()
     xValue = Valor(x)
     yValue = Valor(y)
-    opFuncion = OperandoFuncion(funct)
+    opFunction = OperationTerm(funct)
     if funct == "between":
-        operacion = Operacion(xValue, opFuncion, yValue)
+        operation = Operation(xValue, opFunction, yValue)
     else:
-        operacion = Operacion(xValue, opFuncion)
+        operation = Operation(xValue, opFunction)
 
-    calc.operaciones.append(operacion)
-    valor.set(valor.get()+operacion.__str__())
-    calc.isFuncionSelected = False
+    calc.operations.append(operation)
+    valor.set(valor.get() + operation.__str__())
+    calc.isFunctionSelected = False
 
 
 def doBetween():
@@ -47,8 +47,9 @@ def atLeast():
 def calculate():
     confidence = modo.get()
     calc.__defineConfidence__(confidence)
-    if len(calc.operaciones) == 3:
-        if type(calc.operaciones[1]) == OperandorSimbolo and type(calc.operaciones[0]) == Operacion and type(calc.operaciones[2]) == Operacion:
+    if len(calc.operations) == 3:
+        if type(calc.operations[1]) == OperationSymbol and type(calc.operations[0]) == Operation and type(
+                calc.operations[2]) == Operation:
             doReport(calc)
         else:
             MessageBox.showinfo(
@@ -60,17 +61,17 @@ def calculate():
 
 def delete():
     line = ""
-    if len(calc.operaciones) != 0:
-        calc.operaciones.pop()
-        for op in calc.operaciones:
-            if type(op) != OperandorSimbolo:
-                operador = op.operador
+    if len(calc.operations) != 0:
+        calc.operations.pop()
+        for op in calc.operations:
+            if type(op) != OperationSymbol:
+                operator = op.operator
                 x = op.x
-                if operador == "between":
+                if operator == "between":
                     y = op.y
-                    line += operador + "(" + str(x) + " , " + str(y) + ") "
+                    line += operator + "(" + str(x) + " , " + str(y) + ") "
                 else:
-                    line += operador + "(" + str(x) + ") "
+                    line += operator + "(" + str(x) + ") "
             else:
                 line += " " + op.value + " "
     valor.set(line)
@@ -78,17 +79,17 @@ def delete():
 
 def restart():
     valor.set("")
-    calc.operaciones = []
+    calc.operations = []
 
 
 def joinValue(value):
-    operador = OperandorSimbolo(value)
-    calc.operaciones.append(operador)
-    valor.set(valor.get()+" "+operador.value+" ")
+    operator = OperationSymbol(value)
+    calc.operations.append(operator)
+    valor.set(valor.get() + " " + operator.value + " ")
 
 
 def funcionSelected(functionValue):
-    calc.isFuncionSelected = True
+    calc.isFunctionSelected = True
     if functionValue == 0:
         doBetween()
     elif functionValue == 1:
@@ -133,10 +134,9 @@ frm_Ylabel = Frame(master=frm_XY, bg="lightblue",
                    colormap="new", width=50, height=25)
 frm_Ylabel.pack(side=RIGHT, padx=5)
 
-pantalla = Label(master=frm_result, textvariable=valor,
-                 bg="lightblue", width=50, height=5)
-pantalla.pack(side=RIGHT)
-
+screen = Label(master=frm_result, textvariable=valor,
+               bg="lightblue", width=50, height=5)
+screen.pack(side=RIGHT)
 
 valorY = StringVar()
 valorY.set("Y =")

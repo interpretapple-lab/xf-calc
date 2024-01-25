@@ -7,15 +7,15 @@ class FuzzyNumber(ABC):
         pass
 
     @abstractmethod
-    def suma(self):
+    def addition(self, FuzzyNumber):
         pass
 
     @abstractmethod
-    def resta(self):
+    def subtraction(self, FuzzyNumber):
         pass
 
     @abstractmethod
-    def multiplicacion(self):
+    def multiplication(self, FuzzyNumber):
         pass
 
     @abstractmethod

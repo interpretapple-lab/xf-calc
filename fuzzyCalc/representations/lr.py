@@ -37,7 +37,7 @@ class LRFoBe(FuzzyNumber):
         v = lr.r - cut*(lr.r - lr.u)
         return max(u, v)
 
-    def suma(self, lr):
+    def addition(self, lr):
         m = self.m + lr.m
         a = m - self.left(lr, 0)
         b = m - self.left(lr, 1)
@@ -45,7 +45,7 @@ class LRFoBe(FuzzyNumber):
         d = m + self.right(lr, 0)
         return LRFoBe(a, b, c, d)
 
-    def resta(self, lr):
+    def subtraction(self, lr):
         m = self.m - lr.m
         a = m - self.left(lr, 0)
         b = m - self.left(lr, 1)
@@ -53,7 +53,7 @@ class LRFoBe(FuzzyNumber):
         d = m + self.right(lr, 0)
         return LRFoBe(a, b, c, d)
 
-    def multiplicacion(self, lr):
+    def multiplication(self, lr):
         m = self.m * lr.m
         a = m - self.left(lr, 0)
         b = m - self.left(lr, 1)
@@ -114,7 +114,7 @@ class LRRoSt(FuzzyNumber):
     def upper(self, lr):
         return max(self.u, lr.u)
 
-    def suma(self, lr):
+    def addition(self, lr):
         m = self.m + lr.m
         left = self.left(lr)
         right = self.right(lr)
@@ -126,7 +126,7 @@ class LRRoSt(FuzzyNumber):
         res.u = upper
         return res
 
-    def resta(self, lr):
+    def subtraction(self, lr):
         m = self.m - lr.m
         left = self.left(lr)
         right = self.right(lr)
@@ -138,7 +138,7 @@ class LRRoSt(FuzzyNumber):
         res.u = upper
         return res
 
-    def multiplicacion(self, lr):
+    def multiplication(self, lr):
         m = self.m * lr.m
         left = self.left(lr)
         right = self.right(lr)
