@@ -69,9 +69,10 @@ class GenerateReport():
                     if xy[0]:
                         plt.annotate('(%.2f)' % xy[0], xy=xy, fontsize=15)     
             index += 1
-        plt.savefig("fuzzyCalc/files/results.png")
+        plt.savefig("xf-calc/fuzzyCalc/files/results.png")
 
     def __saveInputPlots(self):
+
         xPlots = 2
         yPlots = 1
         size = 4
@@ -110,7 +111,7 @@ class GenerateReport():
         for xy in zip(xfuzzy2, y):
             plt.annotate('(%.2f)' % xy[0], xy=xy, fontsize=15)
 
-        plt.savefig("fuzzyCalc/files/input.png")
+        plt.savefig("xf-calc/fuzzyCalc/files/input.png")
 
     def __getNumberYPlots(self, numberXPlots: int):
         keys = self.cartesian_values.keys()
@@ -130,7 +131,7 @@ class GenerateReport():
             data = json.load(json_file)
         return dict(data)
 
-    def _generatePDF(self, filename="fuzzyCalc/files/report"+datetime.strftime(datetime.now(), "%d%m%Y_%H%M%S")+".pdf", dateTime=datetime.now()):
+    def _generatePDF(self, filename="xf-calc/fuzzyCalc/files/report"+datetime.strftime(datetime.now(), "%d%m%Y_%H%M%S")+".pdf", dateTime=datetime.now()):
         self.__saveInputPlots()
         self.__saveResultsPlots()
         WIDTH = 210
@@ -141,8 +142,9 @@ class GenerateReport():
         ''' First Page '''
         pdf.add_page()
         self.__createTitle(pdf, "FUZZY NUMBERS - CALCULATOR RESUME", dateTime)
-        pdf.image("fuzzyCalc/files/input.png", 62, 25, 90, 45)
-        pdf.image("fuzzyCalc/files/results.png", 5, 78, WIDTH-8, HEIGHT-95)
+        self.__createSubTitle(pdf, "Confidence level: " + str(self.input['confidence']), dateTime)
+        pdf.image("xf-calc/fuzzyCalc/files/input.png", 62, 25, 90, 45)
+        pdf.image("xf-calc/fuzzyCalc/files/results.png", 5, 78, WIDTH-8, HEIGHT-95)
         self.__addInputInfo(pdf)
 
         pdf.output(filename, 'F')
@@ -153,6 +155,10 @@ class GenerateReport():
         pdf.cell(5, 4, txt=f'{now}', ln=1, align='L')
         pdf.set_font('Arial', '', 14)
         pdf.cell(5, 10, txt=f'{title}', ln=1, align='L')
+
+    def __createSubTitle(self, pdf: FPDF, subtitle, dateTime: datetime):
+        pdf.set_font('Arial', '', 8)
+        pdf.cell(5, 10, txt=f'{subtitle}', ln=1, align='L')
 
     def __addInputInfo(self, pdf: FPDF):
         text = self.input["operacion"]

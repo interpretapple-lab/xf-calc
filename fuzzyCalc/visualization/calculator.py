@@ -41,7 +41,7 @@ def fuzzyCalculator(rows):
     }
 
     jsonObject = json.dumps(jsonData, indent=4)
-    jsonFile = open("fuzzyCalc/files/data.json", "w")
+    jsonFile = open("xf-calc/fuzzyCalc/files/data.json", "w")
     jsonFile.write(jsonObject)
     jsonFile.close()
 

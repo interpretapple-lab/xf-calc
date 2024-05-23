@@ -45,7 +45,7 @@ def atLeast():
 
 
 def calculate():
-    confidence = modo.get()
+    confidence = confidence_slider.get()
     calc.__defineConfidence__(confidence)
     if len(calc.operations) == 3:
         if type(calc.operations[1]) == OperationSymbol and type(calc.operations[0]) == Operation and type(
@@ -170,10 +170,9 @@ button.pack(side=LEFT)
 label = Label(master=frm_modo, text="Confidence: ", bg="white")
 label.pack(side=LEFT, padx=10)
 
-modo = ttk.Combobox(master=frm_modo, state="readonly",
-                    values=["High", "Medium", "Low"])
-modo.set("Medium")
-modo.pack(side=LEFT, padx=10)
+confidence_slider = Scale(master=frm_modo, from_=0, to=1, resolution=0.01, orient=HORIZONTAL)
+confidence_slider.set(0.5)
+confidence_slider.pack(side=LEFT, padx=10)
 
 button = Button(master=frm_funciones, text="=",
                 command=lambda: calculate(), border=10, bg='red')
