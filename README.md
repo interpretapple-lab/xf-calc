@@ -9,7 +9,7 @@
 
 
 - [Numpy](https://numpy.org) (```python3 -m pip install numpy```)
-- [Matploplib](https://matplotlib.org) (```python3 -m pip install matploplib```)
+- [Matplotlib](https://matplotlib.org) (```python3 -m pip install matplotlib```)
 - [Sympy](https://www.sympy.org) (```python3 -m pip install sympy```)
 - [Scipy](https://scipy.org) (```python3 -m pip install scipy```)
 - [FPDF](https://pyfpdf.readthedocs.io) (```python3 -m pip install fpdf```)
