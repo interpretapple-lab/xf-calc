@@ -1,16 +1,15 @@
-import sympy as sp
-from fuzzyCalc.representations.fuzzyI import *
 from fuzzyCalc.representations.trapezoid import *
 
 
-class TriangularZadeh(FuzzyNumber):
-    """Zadeh's Triangular Representation
-    This is an implementation of a triangular representation for fuzzy numbers and operations, proposed by Zadeh, for
-    arithmetic calculations between fuzzy numbers [1].
+class TriangularKauGu(FuzzyNumber):
+    """Kaufmann and Gupta's Triangular Representation
+    This is an implementation of a triangular representation for fuzzy numbers and operations, proposed by Kaufmann and
+    Gupta, for arithmetic calculations between fuzzy numbers [1].
 
     References:
-        [1] R. E. Giachetti and R. E. Young, “A parametric representation of fuzzy numbers and their arithmetic
-        operators,” Fuzzy Sets and Systems, vol. 91, no. 2, pp. 185-202, oct 1997
+        [1] A. Kaufmann and M. Gupta, Introduction to Fuzzy Arithmetic: Theory
+        and Applications, ser. Electrical-Computer Science and Engineering
+        Series. Van Nostrand Reinhold Company, 1985.
 
     """
 
@@ -23,19 +22,19 @@ class TriangularZadeh(FuzzyNumber):
         a = self.x + triangular.x
         b = self.y + triangular.y
         c = self.z + triangular.z
-        return TriangularZadeh(a, b, c)
+        return TriangularKauGu(a, b, c)
 
     def subtraction(self, triangular):
         a = self.x - triangular.z
         b = self.y - triangular.y
         c = self.z - triangular.x
-        return TriangularZadeh(a, b, c)
+        return TriangularKauGu(a, b, c)
 
     def multiplication(self, triangular):
         a = self.x * triangular.x
         b = self.y * triangular.y
         c = self.z * triangular.z
-        return TriangularZadeh(a, b, c)
+        return TriangularKauGu(a, b, c)
 
     def output(self):
         return f'({self.x:.2f}, {self.y:.2f}, {self.z:.2f})'

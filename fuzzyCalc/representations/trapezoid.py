@@ -1,7 +1,5 @@
 import sympy as sp
-from sympy import Symbol
 from fuzzyCalc.representations.fuzzyI import *
-
 
 
 class TrapezoidJiMa(FuzzyNumber):

@@ -94,15 +94,15 @@ def calculation(fuzzy_values, operations, conf):
     for op, FoBe1 in zip(operations, FoBes[1:]):
         FoBe = operation(op, FoBe, FoBe1)
 
-    RoSts = [LRRoSt(fuzzy[0], fuzzy[1], fuzzy[2], fuzzy[3]) for fuzzy in fuzzy_values]
-    RoSt = RoSts[0]
-    for op, RoSt1 in zip(operations, RoSts[1:]):
-        RoSt = operation(op, RoSt, RoSt1)
+    WiRoSts = [LRWiRoSt(fuzzy[0], fuzzy[1], fuzzy[2], fuzzy[3]) for fuzzy in fuzzy_values]
+    WiRoSt = WiRoSts[0]
+    for op, WiRoSt1 in zip(operations, WiRoSts[1:]):
+        WiRoSt = operation(op, WiRoSt, WiRoSt1)
 
-    Zadehs = [TriangularZadeh(fuzzy[0], (fuzzy[1] + fuzzy[2]) / 2, fuzzy[3]) for fuzzy in fuzzy_values]
-    Zadeh = Zadehs[0]
-    for op, Zadeh1 in zip(operations, Zadehs[1:]):
-        Zadeh = operation(op, Zadeh, Zadeh1)
+    KauGus = [TriangularKauGu(fuzzy[0], (fuzzy[1] + fuzzy[2]) / 2, fuzzy[3]) for fuzzy in fuzzy_values]
+    KauGu = KauGus[0]
+    for op, KauGu1 in zip(operations, KauGus[1:]):
+        KauGu = operation(op, KauGu, KauGu1)
 
     GiaYos = [TriangularGiaYo(limit(fuzzy[0]), limit((fuzzy[1] + fuzzy[2]) / 2), limit(fuzzy[3]),
                               limit((fuzzy[1] + fuzzy[2]) / 2) / limit(fuzzy[0]),
@@ -117,7 +117,7 @@ def calculation(fuzzy_values, operations, conf):
     for op, Gauss1 in zip(operations, Gausss[1:]):
         GaussF = operation(op, GaussF, Gauss1)
 
-    return [JiMa, TaRe, SteSoGue, GrMr, FoBe, RoSt, Zadeh, GiaYo, GaussF]
+    return [JiMa, TaRe, SteSoGue, GrMr, FoBe, WiRoSt, KauGu, GiaYo, GaussF]
 
 
 def toJson(results):
@@ -127,8 +127,8 @@ def toJson(results):
         "SteSoGue": results[2].output(),
         "GrMr": results[3].output(),
         "FoBe": results[4].output(),
-        "RoSt": results[5].output(),
-        "Zadeh": results[6].output(),
+        "WiRoSt": results[5].output(),
+        "KauGu": results[6].output(),
         "GiaYo": results[7].output(),
         "Gauss": results[8].output(),
     }
@@ -139,8 +139,8 @@ def toJson(results):
         "SteSoGue": results[2].toCartesian(),
         "GrMr": results[3].toCartesian(),
         "FoBe": results[4].toCartesian(),
-        "RoSt": results[5].toCartesian(),
-        "Zadeh": results[6].toCartesian(),
+        "WiRoSt": results[5].toCartesian(),
+        "KauGu": results[6].toCartesian(),
         "GiaYo": results[7].toCartesian(),
         "Gauss": results[8].toCartesian(),
     }

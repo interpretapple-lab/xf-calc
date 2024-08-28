@@ -1,5 +1,3 @@
-import sympy as sp
-from fuzzyCalc.representations.fuzzyI import *
 from fuzzyCalc.representations.trapezoid import *
 
 
@@ -86,13 +84,16 @@ class LRFoBe(FuzzyNumber):
         return [trap.a, trap.b, trap.c, trap.d]
 
 
-class LRRoSt(FuzzyNumber):
-    """Robinson & Steele's L-R Representation
-    This is an implementation of an L-R representation for trapezoidal fuzzy numbers and operations, proposed by
-    Robinson & Steele, for arithmetic calculations between fuzzy numbers [1].
+class LRWiRoSt(FuzzyNumber):
+    """Williams, Robinson & Steele's L-R Representation
+     This is an implementation of an L-R representation for trapezoidal fuzzy numbers and operations, proposed by
+     Williams, Robinson & Steele, for arithmetic calculations between fuzzy numbers [1].
 
-    References:
-        [1] J. Fodor and B. Bede, “Arithmetics with fuzzy numbers: a comparative overview,” 2006.
+     References:
+        [1] J. Williams, H. Robinson, and N. Steele, “Applying ma et al’s new fuzzy
+        arithmetic to triangular and trapezoidal fuzzy numbers,” Proceedings of
+        the 4th International Conference on Recent Advances in Soft Computing,
+        2002.
 
     """
 
@@ -129,7 +130,7 @@ class LRRoSt(FuzzyNumber):
         left = self.left(lr)
         right = self.right(lr)
         upper = self.upper(lr)
-        res = LRRoSt(0, 0, 0, 0)
+        res = LRWiRoSt(0, 0, 0, 0)
         res.m = m
         res.l = left
         res.r = right
@@ -141,7 +142,7 @@ class LRRoSt(FuzzyNumber):
         left = self.left(lr)
         right = self.right(lr)
         upper = self.upper(lr)
-        res = LRRoSt(0, 0, 0, 0)
+        res = LRWiRoSt(0, 0, 0, 0)
         res.m = m
         res.l = left
         res.r = right
@@ -153,7 +154,7 @@ class LRRoSt(FuzzyNumber):
         left = self.left(lr)
         right = self.right(lr)
         upper = self.upper(lr)
-        res = LRRoSt(0, 0, 0, 0)
+        res = LRWiRoSt(0, 0, 0, 0)
         res.m = m
         res.l = left
         res.r = right
